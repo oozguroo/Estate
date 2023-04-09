@@ -1,0 +1,60 @@
+.navbar {
+  display: flex;
+}
+
+.form-control {
+  width: 250px; /* or any other value you prefer */
+}
+
+@media (max-width: 575.98px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+    margin-right: 0;
+    margin-left: -15px;
+  }
+
+  .navbar-nav {
+    margin: 0;
+  }
+
+  .navbar-nav li {
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .navbar-nav a {
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #loginForm {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #loginForm input {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .d-flex.flex-wrap.align-items-center .form-group {
+    flex-basis: auto !important;
+  }
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+.dropdown-toggle, .dropdown-item {
+  cursor: pointer;
+}
+
+.form-control {
+  margin-top: 6px;
+  width: 250px; /* or any other value you prefer */
+}

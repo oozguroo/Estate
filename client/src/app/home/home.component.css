@@ -1,0 +1,79 @@
+.container {
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 200px;
+  }
+  
+  @media (min-width: 576px) {
+    .container {
+      max-width: 540px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      max-width: 720px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .container {
+      max-width: 960px;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1140px;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 50px;
+    }
+  
+    .col-md-7 {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  
+    .col-md-5 {
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  
+    .col-md-7 {
+      width: 60%;
+    }
+  
+    .col-md-5 {
+      width: 35%;
+    }
+  }
+  .content-wrapper {
+    margin-top: 56px; /* This is the height of the fixed navbar */
+    transition: margin-top 0.5s ease-in-out; /* Smooth transition for animation */
+    overflow-y: auto;
+    height: calc(100vh - 56px); /* subtract the height of the navbar */
+  }
+  
+  .content-wrapper.shift-down {
+    margin-top: 200px; /* Adjust this value based on your navbar height */
+  }
+
+  
+  

@@ -1,0 +1,27 @@
+<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+  <h2 class="text-center text-dark">Hesap Aç</h2>
+  <hr>
+  
+  <div class="input-group flex-nowrap">
+    <div class="form-group">
+      <label for="username"> Kullanıcı Adı </label>
+      <input type="text" class="form-control" name="username" id="username" [(ngModel)]="model.username"
+      aria-describedby="inputGroup-sizing-lg" placeholder="Kullanıcı adınızı girin" required>
+    </div>
+  </div>
+  <div class="input-group flex-nowrap">
+    <div class="form-group">
+      <label for="password" class="form-label">Şifre</label>
+      <input type="password" class="form-control" name="password" id="password" aria-describedby="passwordHelpBlock"
+      aria-describedby="inputGroup-sizing-lg"[(ngModel)]="model.password" placeholder="Şifrenizi girin" required>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button type="submit" class="btn btn-success btn-lg mt-1">Kaydol</button>
+  </div>
+
+  <div class="text-center">
+    <button type="button" class="btn btn-danger btn-lg mt-1" (click)="cancel()">İptal</button>
+  </div>
+</form>

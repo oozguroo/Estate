@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Mersin</a>
+    <button class="navbar-toggler" click="handleNavbarTogglerClick()" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon">
+      </span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Anasayfa</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Yenişehir</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Mezitli</a>
+        </li>
+
+      </ul>
+
+      <div class="d-flex justify-content-center">
+        <form class="d-flex flex-wrap align-items-center" role="search">
+          <div class="form-group mb-1 mb-md-0 me-md-2 flex-fill">
+            <input class="form-control me-2" id="search" type="search" placeholder="İlanlarda ara" aria-label="search">
+          </div>
+          <div class="flex-shrink-0 mb-1">
+            <button type="submit" class="btn btn-success form-control">Ara</button>
+        </div>
+        </form>
+      </div>   
+    </div>
+
+    <div class="d-flex justify-content-center  mt-2">
+      <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex flex-wrap align-items-center" role="login" (ngSubmit)="login()">
+        <div class="form-group mb-2 mb-md-0 me-md-2 flex-fill">
+          <input class="form-control" name="username" [(ngModel)]="model.username" type="text" placeholder="Kullanıcı Adı" aria-label="Username">
+        </div>
+        <div class="form-group mb-2 mb-md-0 me-md-2 flex-fill">
+          <input name="password" [(ngModel)]="model.password" class="form-control" type="text" placeholder="Şifre" aria-label="Password">
+        </div>
+        <div class="flex-shrink-0">
+          <button class="btn btn-outline-success form-control" type="submit">Giriş</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="btn-group mb-1 margin-rgiht:2px;" dropdown *ngIf="accountService.currentUser$ | async" >
+      <button id="button-basic" dropdownToggle type="button" class="btn btn-danger dropdown-toggle"aria-controls="dropdown-basic">
+        <i class="fa fa-user-circle" aria-hidden="true"></i> Hesabım <span class="caret"></span>
+      </button> 
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu mt-3"role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item" ><i class="fa fa-pencil" aria-hidden="true"></i>
+          Bilgilerim</a></li>
+        <li role="menuitem"><a class="dropdown-item"><i class="fa fa-key" aria-hidden="true"></i>
+            Güvenlik</a></li>
+        <li role="menuitem"><a class="dropdown-item" (click)="logout()"><i class="fa fa-power-off" aria-hidden="true"></i>
+              Çıkış</a></li>    
+        <li class="divider dropdown-divider"></li>
+        <li role="menuitem"><a class="dropdown-item"><i class="fa fa-question-circle" aria-hidden="true"></i>
+          Yardım</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
