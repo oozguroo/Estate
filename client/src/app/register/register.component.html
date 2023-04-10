@@ -1,27 +1,25 @@
-<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
-  <h2 class="text-center text-dark">Hesap Aç</h2>
-  <hr>
+
+<body class="text-center">
+  <form #registerForm="ngForm" class="form-register" (ngSubmit)="register()" autocomplete="off">
+    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">İlan yüklemek için kayıt olmalısınız! </h1>
+
+    <label for="inputEmail" class="sr-only mb-1">Kullanıcı Adı</label>
+    <input type="text" class="form-control mb-2" name="username" id="username" [(ngModel)]="model.username"
+    aria-describedby="inputGroup-sizing-lg" placeholder="Kullanıcı adınızı girin" required autofocus>
+
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" class="form-control mb-2" name="password" id="password" aria-describedby="passwordHelpBlock"
+    aria-describedby="inputGroup-sizing-lg"[(ngModel)]="model.password" placeholder="Şifrenizi girin" required>
   
-  <div class="input-group flex-nowrap">
-    <div class="form-group">
-      <label for="username"> Kullanıcı Adı </label>
-      <input type="text" class="form-control" name="username" id="username" [(ngModel)]="model.username"
-      aria-describedby="inputGroup-sizing-lg" placeholder="Kullanıcı adınızı girin" required>
+    <div class="text-center">
+      <button class="btn btn-lg btn-warning" type="submit">Kaydol</button>
     </div>
-  </div>
-  <div class="input-group flex-nowrap">
-    <div class="form-group">
-      <label for="password" class="form-label">Şifre</label>
-      <input type="password" class="form-control" name="password" id="password" aria-describedby="passwordHelpBlock"
-      aria-describedby="inputGroup-sizing-lg"[(ngModel)]="model.password" placeholder="Şifrenizi girin" required>
+    <div class="text-center">
+      <button class="btn btn-lg btn-info" routerLink="/login" type="submit">Hesabınız var mı giriş yapın</button>
     </div>
-  </div>
-
-  <div class="text-center">
-    <button type="submit" class="btn btn-success btn-lg mt-1">Kaydol</button>
-  </div>
-
-  <div class="text-center">
-    <button type="button" class="btn btn-danger btn-lg mt-1" (click)="cancel()">İptal</button>
-  </div>
-</form>
+    <div class="text-center">
+      <button type="button" class="btn btn-danger btn-lg" routerLink="/ads" (click)="cancel()">Vazgeç</button>
+    </div>
+  </form>
+</body>
