@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpPost("register")] // POST: api/account/register?username=sam&password=pwd
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Username)) return BadRequest("Bu Kullanıcı adı alınmıştır");
+            if (await UserExists(registerDto.Username)) return BadRequest("Kullanıcı adı alınmıştır");
 
             using var hmac = new HMACSHA512();
 

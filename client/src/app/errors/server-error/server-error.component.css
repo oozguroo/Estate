@@ -1,0 +1,39 @@
+
+body {
+    height: 100%;
+  }
+  
+  body {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #8d8d8d;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    height: 3rem;
+    max-width: 400px;
+  }
+  
+  .btn-success {
+    margin-right: 0.5rem;
+  }
+  .fa-stack .fa-exclamation-triangle {
+    color:#ffc107 ;
+}
+ /* Set the font size and font family for the timer */
+ .countdown {
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+}

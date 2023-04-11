@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http'
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +21,10 @@ import { MemberHelpComponent } from './members/member-help/member-help.component
 import { MessagesComponent } from './messages/messages.component';
 import { MemberLoginComponent } from './members/member-login/member-login.component';
 import { SharedModule } from './_modules/shared.module';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { TestErrorComponent } from './errors/test-error/test-error.component';
 
 
 
@@ -40,7 +44,10 @@ import { SharedModule } from './_modules/shared.module';
     AdsPhotoComponent,
     MemberHelpComponent,
     MessagesComponent,
-    MemberLoginComponent
+    MemberLoginComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
+    TestErrorComponent
    
 
   ],
@@ -54,7 +61,9 @@ import { SharedModule } from './_modules/shared.module';
     
     
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
