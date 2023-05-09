@@ -1,34 +1,56 @@
 
-<!doctype html>
-<html lang="en">
+
+
   <body>
     <form class="d-flex flex-grow-1 mt-2" role="search">
-      <input class="form-control me-2" id="search" type="search" placeholder="Aramak için ne duruyorsun?" aria-label="Search">
+      <input class="form-control me-2" id="search" type="search" placeholder="**" aria-label="Search">
       <button class="btn btn-outline-success mt-1" type="submit">Ara</button>
     </form>
     <main role="main">
-      <div class="album py-5 bg-light">
-        <div class="container">
+
+
 
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4" *ngFor="let house of houses">
+            
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                <img class="card-img-top" src="{{house.photoUrl}}" alt="{{house.title}}">
+                
                 <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                
+                    <li *ngFor="let category of houseCategories">{{category.name}}</li>
+                  
+                
+                  <p class="card-text">{{house.description}}</p>
+
                   <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">{{house.price}}</h5>
+                    <h5 class="card-title">{{house.userName}}</h5>
+                    <h5 class="card-title">{{house.room}}</h5>
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                       <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    <small class="text-muted">{{house.creationDate | date: 'mediumDate'}}</small>
+   
                   </div>
+                  <div *ngFor="let town of houseTowns">
+                    <h5 class="card-title">{{town.name}}</h5>
+                  </div>
+                  <div *ngFor="let district of houseDistricts">
+                    <h5 class="card-title">{{district.name}}</h5>
+                  </div>
+
+  
+
+ 
+             
+                  
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+       
     </main>
   </body>
-</html>
+

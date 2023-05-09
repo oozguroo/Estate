@@ -3,13 +3,12 @@ namespace API.DTOs
 {
     public class HouseDto
     {
-
         public int Id { get; set; }
         public string Title { get; set; }
-
         public int AppUserId { get; set; }
         public string UserName { get; set; }
         public string Description { get; set; }
+        public string PhotoUrl { get; set; }
         public int Price { get; set; }
         public short Age { get; set; }
         public string Floor { get; set; }
@@ -32,8 +31,10 @@ namespace API.DTOs
         public DateTime ExpirationDate { get; set; }
 
         public List<PhotoDto> Photos { get; set; }
-        public ICollection<HouseLocationDto> HouseLocations { get; set; }
-        public ICollection<HouseCategoryDto> HouseCategories { get; set; }
+        public List<TownDto> Towns { get; set; }
+        public List<DistrictDto> Districts { get; set; }
+        public List<CategoryDto> Categories { get; set; }
+
         //Frontage
         public bool? HasNorthFrontage { get; set; }
         public bool? HasSouthFrontage { get; set; }

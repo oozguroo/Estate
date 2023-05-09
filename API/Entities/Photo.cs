@@ -13,7 +13,7 @@ namespace API.Entities
         public bool IsMain { get; set; }
         public string PublicId { get; set; }
         
-        [ForeignKey("AppUserId")]
+        [ForeignKey("HouseId")]
         public int HouseId { get; set; }
         public House House { get; set; }
 

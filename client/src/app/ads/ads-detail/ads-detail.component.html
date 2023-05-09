@@ -1,1 +1,23 @@
-<p>ads-detail works!</p>
+<main>
+    <section id="house-details">
+      <h2>House Details</h2>
+      <ul>
+        <li>Hometown: <input type="text" name="hometown"></li>
+        <li>District: <input type="text" name="district"></li>
+        <li>Photos: <input type="file" name="photos"></li>
+        <li>Specifications: <textarea name="specifications"></textarea></li>
+      </ul>
+    </section>
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <form action="/contact" method="post">
+        <input type="text" name="name" placeholder="Your Name">
+        <input type="email" name="email" placeholder="Your Email">
+        <input type="text" name="message" placeholder="Your Message">
+        <input type="submit" value="Submit">
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>Copyright &copy; 2023 Real Estate Website</p>
+  </footer>

@@ -1,6 +1,5 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using API.Entities.Homes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
@@ -9,8 +8,8 @@ namespace API.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; } 
-         public ICollection<HouseCategory> HouseCategories { get; set; }
+        public string Name { get; set; }
+        public ICollection<HouseCategory> HouseCategories { get; set; }
 
     }
 }

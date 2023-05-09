@@ -1,7 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using API.Entities.Location;
+
 
 namespace API.Entities.Homes
 {
@@ -36,8 +36,9 @@ namespace API.Entities.Homes
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;
         public DateTime ExpirationDate => CreationDate.AddDays(30);
         public List<Photo> Photos { get; set; } = new List<Photo>();
-        public ICollection<HouseLocation> HouseLocations { get; set; }
-        public ICollection<HouseCategory> HouseCategories { get; set; }
+        public List<HouseTown> HouseTowns { get; set; } = new List<HouseTown>();
+        public List<HouseDistrict> HouseDistricts { get; set; } = new List<HouseDistrict>();
+        public List<HouseCategory> HouseCategories { get; set; } = new List<HouseCategory>();
         //Frontage
         public bool? HasNorthFrontage { get; set; }
         public bool? HasSouthFrontage { get; set; }
@@ -75,7 +76,7 @@ namespace API.Entities.Homes
         Doğalgaz,
         Merkezi
     }
-    
+
     public enum Deed
     {
         Tapu,

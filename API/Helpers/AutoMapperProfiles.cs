@@ -1,7 +1,6 @@
 using API.DTOs;
 using API.Entities;
 using API.Entities.Homes;
-using API.Entities.Location;
 using AutoMapper;
 
 namespace API.Helpers
@@ -11,41 +10,30 @@ namespace API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<AppUser, MemberDto>();
+            CreateMap<AppUser, HouseDto>();
 
-            // HouseLocation
-            CreateMap<HouseLocation, HouseLocationDto>();
 
-            // HouseCategory
-            CreateMap<HouseCategory, HouseCategoryDto>();
+
 
             // Category
             CreateMap<Category, CategoryDto>();
+            //Location
+            CreateMap<Town, TownDto>();
+            CreateMap<District, DistrictDto>();
 
             // House
             CreateMap<House, HouseDto>()
-     .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => new PhotoDto { Url = p.Url })))
-     .ForMember(dest => dest.HouseLocations, opt => opt.MapFrom(src => src.HouseLocations.Select(hl => new HouseLocationDto
-     {
-         City = new CityDto { Name = hl.City.Name },
-         Town = new TownDto { Name = hl.Town.Name },
-         District = new DistrictDto { Name = hl.District.Name }
-     }).ToList()))
-      .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.AppUser.UserName));
-
+ .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.HouseCategories.Select(hc => hc.Category)))
+  .ForMember(dest => dest.Towns, opt => opt.MapFrom(src => src.HouseTowns.Select(ht => ht.Town)))
+   .ForMember(dest => dest.Districts, opt => opt.MapFrom(src => src.HouseDistricts.Select(hd => hd.District)))
+    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.AppUser.UserName))
+    .ForMember(dest => dest.PhotoUrl, 
+                    opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
+    .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => new PhotoDto { Id = p.Id, Url = p.Url, IsMain = p.IsMain }).ToList()));
 
 
             // Photo
             CreateMap<Photo, PhotoDto>();
-
-            // City
-            CreateMap<City, CityDto>();
-
-            // Town
-            CreateMap<Town, TownDto>();
-
-            // District
-            CreateMap<District, DistrictDto>();
-
 
 
 

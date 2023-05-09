@@ -24,38 +24,49 @@ namespace API.Controllers
 
         }
 
+       [HttpPost("create")]
+public async Task<ActionResult<HouseDto>> CreateHouse(HouseDto houseDto)
+{
+    try
+    {
+        // Perform any necessary validation or checks here
+
+        // Map the HouseDto to a House entity
+        var house = _mapper.Map<House>(houseDto);
+
+        // Call the repository method to add the house
+        _adRepository.AddHouse(house);
+
+        // Save the changes to the database
+        if (await _adRepository.SaveAllAsync())
+        {
+            // Map the created house back to a HouseDto and return it
+            var createdHouseDto = _mapper.Map<HouseDto>(house);
+            return Ok(createdHouseDto);
+        }
+    }
+    catch (Exception ex)
+    {
+        // Handle any exceptions that occurred during the creation process
+    }
+
+    return BadRequest("Failed to create the house");
+}
+ 
+
+
         [HttpGet]
-        public async Task<ActionResult<List<House>>> GetHousesAsync()
+        public async Task<ActionResult<IEnumerable<HouseDto>>> GetHouses()
         {
             var houses = await _adRepository.GetHousesAsync();
-            var housesToReturn = _mapper.Map<IEnumerable<HouseDto>>(houses);
             return Ok(houses);
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<HouseDto>> GetHouseByIdAsync(int id)
+        public async Task<ActionResult<HouseDto>> GetHouse(int id)
         {
-
-            var house = await _adRepository.GetHouseByIdAsync(id);
-            var appUser = await _adRepository.GetUserByIdAsync(house.AppUserId);
-            var houseDto = new HouseDto();
-            houseDto.Id = house.Id;
-            houseDto.Title = house.Title;
-            houseDto.Description = house.Description;
-            houseDto.Price = house.Price;
-            houseDto.UserName = appUser.UserName;
-            return Ok(houseDto);
-        }
-
-
-
-
-        [HttpGet("{username}")]
-        public async Task<ActionResult<AppUser>> GetUserByUsernameAsync(string username)
-        {
-            var user = await _adRepository.GetUserByUsernameAsync(username);
-            return user;
+            return await _adRepository.GetHouseAsync(id);
         }
 
 

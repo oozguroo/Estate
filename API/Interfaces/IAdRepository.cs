@@ -6,14 +6,18 @@ namespace API.Interfaces
 {
     public interface IAdRepository
     {
-        Task<IEnumerable<House>>GetHousesAsync();
-        Task<House>GetHouseByIdAsync(int id);
-
-        Task<AppUser>GetUserByUsernameAsync(string username);
+        Task<IEnumerable<HouseDto>> GetHousesAsync();
+        Task<HouseDto> GetHouseAsync(int id);
         Task<AppUser> GetUserByIdAsync(int id);
+        Task<bool> SaveAllAsync();
+         void Update(House house);
 
-        Task<IEnumerable<House>> GetHousesByUserAsync(string username);
+        void AddHouse(House house);
+
+
+
+
 
 
     }
-}
+} 

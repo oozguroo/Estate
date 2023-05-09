@@ -17,7 +17,7 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,16 +25,16 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cities",
+                name: "Districts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
+                    table.PrimaryKey("PK_Districts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,18 +106,11 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Towns", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Towns_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,20 +118,43 @@ namespace API.Data.Migrations
                 columns: table => new
                 {
                     HouseId = table.Column<int>(type: "int", nullable: false),
-                    ChoosenCategoryId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HouseCategories", x => new { x.HouseId, x.ChoosenCategoryId });
+                    table.PrimaryKey("PK_HouseCategories", x => new { x.HouseId, x.CategoryId });
                     table.ForeignKey(
-                        name: "FK_HouseCategories_Categories_ChoosenCategoryId",
-                        column: x => x.ChoosenCategoryId,
+                        name: "FK_HouseCategories_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_HouseCategories_Houses_HouseId",
+                        column: x => x.HouseId,
+                        principalTable: "Houses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HouseDistricts",
+                columns: table => new
+                {
+                    HouseId = table.Column<int>(type: "int", nullable: false),
+                    DistrictId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HouseDistricts", x => new { x.HouseId, x.DistrictId });
+                    table.ForeignKey(
+                        name: "FK_HouseDistricts_Districts_DistrictId",
+                        column: x => x.DistrictId,
+                        principalTable: "Districts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HouseDistricts_Houses_HouseId",
                         column: x => x.HouseId,
                         principalTable: "Houses",
                         principalColumn: "Id",
@@ -168,94 +184,38 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Districts",
+                name: "HouseTowns",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HouseId = table.Column<int>(type: "int", nullable: false),
                     TownId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Districts", x => x.Id);
+                    table.PrimaryKey("PK_HouseTowns", x => new { x.HouseId, x.TownId });
                     table.ForeignKey(
-                        name: "FK_Districts_Towns_TownId",
+                        name: "FK_HouseTowns_Houses_HouseId",
+                        column: x => x.HouseId,
+                        principalTable: "Houses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HouseTowns_Towns_TownId",
                         column: x => x.TownId,
                         principalTable: "Towns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "HouseLocations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HouseId = table.Column<int>(type: "int", nullable: false),
-                    LocationCityId = table.Column<int>(type: "int", nullable: false),
-                    LocationTownId = table.Column<int>(type: "int", nullable: false),
-                    LocationDistrictId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HouseLocations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_HouseLocations_Cities_LocationCityId",
-                        column: x => x.LocationCityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_HouseLocations_Districts_LocationDistrictId",
-                        column: x => x.LocationDistrictId,
-                        principalTable: "Districts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_HouseLocations_Houses_HouseId",
-                        column: x => x.HouseId,
-                        principalTable: "Houses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HouseLocations_Towns_LocationTownId",
-                        column: x => x.LocationTownId,
-                        principalTable: "Towns",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Districts_TownId",
-                table: "Districts",
-                column: "TownId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HouseCategories_ChoosenCategoryId",
+                name: "IX_HouseCategories_CategoryId",
                 table: "HouseCategories",
-                column: "ChoosenCategoryId");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HouseLocations_HouseId",
-                table: "HouseLocations",
-                column: "HouseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HouseLocations_LocationCityId",
-                table: "HouseLocations",
-                column: "LocationCityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HouseLocations_LocationDistrictId",
-                table: "HouseLocations",
-                column: "LocationDistrictId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HouseLocations_LocationTownId",
-                table: "HouseLocations",
-                column: "LocationTownId");
+                name: "IX_HouseDistricts_DistrictId",
+                table: "HouseDistricts",
+                column: "DistrictId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Houses_AppUserId",
@@ -263,14 +223,14 @@ namespace API.Data.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HouseTowns_TownId",
+                table: "HouseTowns",
+                column: "TownId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Photos_HouseId",
                 table: "Photos",
                 column: "HouseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Towns_CityId",
-                table: "Towns",
-                column: "CityId");
         }
 
         /// <inheritdoc />
@@ -280,7 +240,10 @@ namespace API.Data.Migrations
                 name: "HouseCategories");
 
             migrationBuilder.DropTable(
-                name: "HouseLocations");
+                name: "HouseDistricts");
+
+            migrationBuilder.DropTable(
+                name: "HouseTowns");
 
             migrationBuilder.DropTable(
                 name: "Photos");
@@ -292,13 +255,10 @@ namespace API.Data.Migrations
                 name: "Districts");
 
             migrationBuilder.DropTable(
-                name: "Houses");
-
-            migrationBuilder.DropTable(
                 name: "Towns");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "Houses");
         }
     }
 }

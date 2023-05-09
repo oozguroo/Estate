@@ -1,9 +1,9 @@
 using API.DTOs;
 using API.Entities;
 using API.Entities.Homes;
-using API.Entities.Location;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -11,56 +11,41 @@ namespace API.Data
     public class AdRepository : IAdRepository
     {
         private readonly DataContext _context;
-        public AdRepository(DataContext context)
+        private readonly IMapper _mapper;
+        public AdRepository(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
-        public async Task<IEnumerable<House>> GetHousesAsync()
+
+
+        public async Task<HouseDto> GetHouseAsync(int id)
         {
             return await _context.Houses
-                .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.City)
-                .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.Town)
-                .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.District)
-                .Include(h => h.HouseCategories)
-                    .ThenInclude(l => l.Category)
-                .Include(h => h.Photos)
-                .Include(h => h.AppUser) // Include the AppUser entity
-                .Select(h => new House
-                {
-                    AppUserId = h.AppUserId,
-                    AppUser = new AppUser
-                    {
-                        Id = h.AppUser.Id,
-                        UserName = h.AppUser.UserName
-                    }
-                })
+
+            .Where(x => x.Id == id)
+
+
+      .ProjectTo<HouseDto>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync();
+
+        }
+
+
+
+
+        public async Task<IEnumerable<HouseDto>> GetHousesAsync()
+        {
+            var houses = await _context.Houses
+                .ProjectTo<HouseDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+
+            return houses;
         }
 
 
 
-
-
-
-        public async Task<House> GetHouseByIdAsync(int id)
-        {
-            return await _context.Houses
-
-                     .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.City)
-                .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.Town)
-                .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.District)
-                .Include(h => h.HouseCategories)
-                 .ThenInclude(l => l.Category)
-                 .Include(h => h.Photos)
-    .FirstOrDefaultAsync(h => h.Id == id);
-        }
 
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
@@ -72,26 +57,23 @@ namespace API.Data
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<IEnumerable<House>> GetHousesByUserAsync(string username)
-        {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == username);
-            if (user == null)
-            {
-                return null;
-            }
 
-            return await _context.Houses
-                .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.City)
-                .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.Town)
-                .Include(h => h.HouseLocations)
-                    .ThenInclude(l => l.District)
-                .Include(h => h.HouseCategories)
-                    .ThenInclude(l => l.Category)
-                .Include(h => h.Photos)
-                .Where(h => h.AppUserId == user.Id)
-                .ToListAsync();
+
+        public void Update(House house)
+        {
+            _context.Entry(house).State = EntityState.Modified;
+        }
+
+        public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public void AddHouse(House house)
+        {
+            // Add the house to the database or perform any necessary operations
+            _context.Houses.Add(house);
+            _context.SaveChanges();
         }
 
 

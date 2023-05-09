@@ -9,10 +9,5 @@ namespace API.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CityId { get; set; }
-        public CityDto City { get; set; }
-
-        public ICollection<DistrictDto> Districts { get; set; }
-
     }
 }
