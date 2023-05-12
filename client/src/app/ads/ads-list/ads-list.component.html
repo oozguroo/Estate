@@ -28,7 +28,7 @@
                     <h5 class="card-title">{{house.userName}}</h5>
                     <h5 class="card-title">{{house.room}}</h5>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" routerLink="/ads/{{house.id}}" class="btn btn-sm btn-outline-secondary">View</button>
                       <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
                     <small class="text-muted">{{house.creationDate | date: 'mediumDate'}}</small>

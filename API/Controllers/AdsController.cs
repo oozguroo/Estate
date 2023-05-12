@@ -20,40 +20,7 @@ namespace API.Controllers
         {
             _mapper = mapper;
             _adRepository = adRepository;
-
-
         }
-
-       [HttpPost("create")]
-public async Task<ActionResult<HouseDto>> CreateHouse(HouseDto houseDto)
-{
-    try
-    {
-        // Perform any necessary validation or checks here
-
-        // Map the HouseDto to a House entity
-        var house = _mapper.Map<House>(houseDto);
-
-        // Call the repository method to add the house
-        _adRepository.AddHouse(house);
-
-        // Save the changes to the database
-        if (await _adRepository.SaveAllAsync())
-        {
-            // Map the created house back to a HouseDto and return it
-            var createdHouseDto = _mapper.Map<HouseDto>(house);
-            return Ok(createdHouseDto);
-        }
-    }
-    catch (Exception ex)
-    {
-        // Handle any exceptions that occurred during the creation process
-    }
-
-    return BadRequest("Failed to create the house");
-}
- 
-
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HouseDto>>> GetHouses()
@@ -64,10 +31,64 @@ public async Task<ActionResult<HouseDto>> CreateHouse(HouseDto houseDto)
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<HouseDto>> GetHouse(int id)
+        public async Task<ActionResult<HouseDto>> GetOneHouse(int id)
         {
-            return await _adRepository.GetHouseAsync(id);
+            return await _adRepository.GetHouseByIdAsync(id);
         }
+
+   [HttpPost("add")]
+public async Task<ActionResult<HouseDto>> CreateHouseAsync(HouseDto houseDto)
+{
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState);
+    }
+
+    var house = _mapper.Map<HouseDto, House>(houseDto);
+    foreach (var categoryDto in houseDto.Categories)
+    {
+        var category = await _adRepository.GetCategoryAsync(categoryDto.Id);
+        if (category == null)
+        {
+            throw new InvalidOperationException("Category not found");
+        }
+
+        house.HouseCategories.Add(new HouseCategory
+        {
+            CategoryId = category.Id,
+        });
+    }
+    foreach (var townDto in houseDto.Towns)
+    {
+        var town = await _adRepository.GetTownAsync(townDto.Id);
+        if (town == null)
+        {
+            throw new InvalidOperationException("Town not found");
+        }
+
+        house.HouseTowns.Add(new HouseTown
+        {
+            TownId = town.Id,
+        });
+    }
+    foreach (var districtDto in houseDto.Districts)
+    {
+        var district = await _adRepository.GetDistrictAsync(districtDto.Id);
+        if (district == null)
+        {
+            throw new InvalidOperationException("District not found");
+        }
+
+        house.HouseDistricts.Add(new HouseDistrict
+        {
+            DistrictId = district.Id,
+        });
+    }
+
+    var createdHouseDto = await _adRepository.CreateHouseAsync(houseDto);
+
+    return CreatedAtAction(nameof(GetOneHouse), new { id = createdHouseDto.Id }, createdHouseDto);
+}
 
 
 

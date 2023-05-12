@@ -7,17 +7,20 @@ namespace API.Interfaces
     public interface IAdRepository
     {
         Task<IEnumerable<HouseDto>> GetHousesAsync();
-        Task<HouseDto> GetHouseAsync(int id);
+        Task<HouseDto> GetHouseByIdAsync(int id);
         Task<AppUser> GetUserByIdAsync(int id);
         Task<bool> SaveAllAsync();
-         void Update(House house);
+        void Update(House house);
 
-        void AddHouse(House house);
+        Task<Category> GetCategoryAsync(int categoryId);
+        Task<Town> GetTownAsync(int townId);
+        Task<District> GetDistrictAsync(int districtId);
 
+     Task<HouseDto> CreateHouseAsync(HouseDto houseDto);
 
 
 
 
 
     }
-} 
+}

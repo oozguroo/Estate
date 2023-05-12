@@ -1,0 +1,45 @@
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .house-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+  }
+
+  .house-details {
+    margin-top: 20px;
+  }
+
+  .house-specs {
+    margin-top: 20px;
+  }
+
+  .house-specs h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .house-specs p {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+
+  .form-check-input[type="checkbox"] {
+    display: none;
+  }
+  
+  .checkmark {
+    cursor: default;
+  }
+  
+/* Custom checkbox style */
+
+
+
+

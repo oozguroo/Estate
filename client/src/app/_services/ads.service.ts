@@ -17,8 +17,9 @@ export class AdsService {
   
 
   getHouse(id: number) {
-    return this.http.get<House>(`${this.baseUrl}ads/${id}`);
+    return this.http.get<House>(`${this.baseUrl}ads/${id}?includeHouseCategories=true&includeTowns=true`);
   }
+  
 
 
 }

@@ -1,23 +1,536 @@
-<main>
-    <section id="house-details">
-      <h2>House Details</h2>
-      <ul>
-        <li>Hometown: <input type="text" name="hometown"></li>
-        <li>District: <input type="text" name="district"></li>
-        <li>Photos: <input type="file" name="photos"></li>
-        <li>Specifications: <textarea name="specifications"></textarea></li>
-      </ul>
-    </section>
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <form action="/contact" method="post">
-        <input type="text" name="name" placeholder="Your Name">
-        <input type="email" name="email" placeholder="Your Email">
-        <input type="text" name="message" placeholder="Your Message">
-        <input type="submit" value="Submit">
-      </form>
-    </section>
-  </main>
-  <footer>
-    <p>Copyright &copy; 2023 Real Estate Website</p>
-  </footer>
+<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+    <h2>{{house.title}}</h2>
+  </div>
+  <div class="col-xs-6 col-md-4">
+   <!-- Boş alan -->
+
+   Empty place
+  </div>
+</div>
+
+<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+<div class="row">
+  <div class="col-xs-6 col-md-4">
+    <!-- Photo -->
+     <img class="house-image" src="{{house.photoUrl}}" alt="House Photo">
+  </div>
+  <div class="col-xs-6 col-md-4">
+   <!--  İlan Detay -->
+   <div class="table-responsive" >
+    <table class="table table-striped table-sm">
+      <h4>{{ house.price | number:'1.0-0' }} ₺</h4>
+      <div class="row">
+        <div class="col-xs-6 col-md-4">
+          <p>
+            <ng-container *ngFor="let town of houseTowns; let last = last">
+              {{ town.name }}{{ last ? '' : ' - ' }} 
+            </ng-container>
+          </p>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <p>
+            <ng-container *ngFor="let district of houseDistricts; let last = last">
+              {{ district.name }}{{ last ? '' : ' - ' }}
+            </ng-container>
+          </p>
+        </div>
+      </div>
+      
+      
+      <tbody>
+        <tr>
+          <th>İlan No</th>
+          <td>{{house.id}}</td>
+        </tr>
+        <tr>
+          <th>İlan Tarihi</th>
+          <td>{{ house.creationDate | date:'dd MMMM y' }}</td>
+        </tr>
+        <tr>
+          <th>Oda Sayısı</th>
+          <td>{{house.floor}}</td>
+        </tr>
+        <tr>
+          <th>m² (Brüt)</th>
+          <td>{{house.gross}}</td>
+        </tr>
+        <tr>
+          <th>m² (Net)</th>
+          <td>{{house.square}}</td>
+        </tr>
+        <tr>
+          <th>Oda Sayısı</th>
+          <td>{{house.room}}</td>
+        </tr>
+        <tr>
+          <th>Yaşı</th>
+          <td>{{house.age}}</td>
+        </tr>
+        <tr>
+          <th>Isıtma</th>
+          <td>{{house.heathType}}</td>
+        </tr>
+        <tr>
+          <th>Banyo Sayısı</th>
+          <td>{{house.bathroom}}</td>
+        </tr>
+        <tr>
+          <th>Balkon Sayısı</th>
+          <td>{{house.balcony}}</td>
+        </tr>
+
+        <tr>
+          <th>Banyo Sayısı</th>
+          <td>{{house.bathroom}}</td>
+        </tr>
+        <tr>
+          <th>Site Adı</th>
+          <td>{{house.complexName}}</td>
+        </tr>
+        <tr>
+          <th>Aydat</th>
+          <td>{{house.dues}}</td>
+        </tr>
+
+        <tr>
+          <th>Eşyalı</th>
+          <td>{{ house.furnish ? 'Evet' : 'Hayır' }}</td>
+        </tr>
+
+        <tr>
+          <th>Krediye Uygun</th>
+          <td>{{ house.credit ? 'Evet' : 'Hayır' }}</td>
+        </tr>
+        <tr>
+          <th>Takas</th>
+          <td>{{ house.exchange ? 'Evet' : 'Hayır' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+  
+  <div class="col-xs-6 col-md-4">
+    <!-- User -->
+   <div class="card mt-3">
+    <div class="card-body">
+      <tr>
+        <strong><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+          İlan Sahibi : </strong>
+          <td>{{ house.userName | uppercase }}</td>
+      </tr>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- Columns are always 50% wide, on mobile and desktop -->
+<div class="row justify-content-center">
+  <div class="col-xs-12 col-md-6">
+    <!-- Description -->
+    <div class="card mt-3">
+      <div class="card-body">
+        {{house.description}}
+      </div>
+    </div>
+  <!-- Ev Özellikleri -->
+  <h6>Cephe</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hasNorthFrontage" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.hasNorthFrontage === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.hasNorthFrontage === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Kuzey</span>
+            </div>
+
+         
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hasSouthFrontage" disabled>
+                <label class="checkmark" for="inlineCheckbox1">
+                  <ng-container *ngIf="house.hasSouthFrontage === true">
+                    <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                  </ng-container>
+                  <ng-container *ngIf="house.hasSouthFrontage === false">
+                    <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                  </ng-container>
+                </label>
+                <span class="checkbox-label"> Güney</span>
+              </div>
+
+
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hasEastFrontage" disabled>
+                <label class="checkmark" for="inlineCheckbox1">
+                  <ng-container *ngIf="house.hasEastFrontage === true">
+                    <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                  </ng-container>
+                  <ng-container *ngIf="house.hasEastFrontage === false">
+                    <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                  </ng-container>
+                </label>
+                <span class="checkbox-label"> Doğu</span>
+              </div>
+
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hasWestFrontage" disabled>
+                <label class="checkmark" for="inlineCheckbox1">
+                  <ng-container *ngIf="house.hasWestFrontage === true">
+                    <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                  </ng-container>
+                  <ng-container *ngIf="house.hasWestFrontage === false">
+                    <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                  </ng-container>
+                </label>
+                <span class="checkbox-label"> Batı</span>
+              </div>
+          </div>
+        </div>
+    
+        <h6 class="mt-2">Manzara</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.sea" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.sea=== true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.sea=== false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Deniz</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.nature" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.nature === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.nature === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Doğa</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.lake" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.lake === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.lake === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Göl</span>
+            </div>
+
+
+          </div>
+        </div>
+
+        <h6 class="mt-2">İç Özellikler</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hasWifi" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.hasWifi=== true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.hasWifi=== false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Wi-Fi</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hasSteelDoors" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.hasSteelDoors === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.hasSteelDoors === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Çelik Kapı</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hasElevator" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.hasElevator === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.hasElevator === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Asansör</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hasChimney" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.hasChimney === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.hasChimney === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Şömine</span>
+            </div>
+
+          </div>
+        </div>
+
+        <h6 class="mt-2">Dış Özellikler</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.swimmingPool" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.swimmingPool=== true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.swimmingPool=== false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Havuz</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.generator" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.generator === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.generator === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Jeneratör</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.parking" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.parking === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.parking === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Park</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.satellite" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.satellite === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.satellite === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Uydu</span>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="mt-2">Dış Özellikler</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.swimmingPool" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.swimmingPool=== true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.swimmingPool=== false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Havuz</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.generator" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.generator === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.generator === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Jeneratör</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.parking" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.parking === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.parking === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Park</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.satellite" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.satellite === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.satellite === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Uydu</span>
+            </div>
+          </div>
+        </div>
+
+
+        <h6 class="mt-2">Ulaşım</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.metro" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.metro=== true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.metro=== false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Metro</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.tramvay" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.tramvay === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.tramvay === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Tramvay</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.van" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.van === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.van === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Dolmuş</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.busStop" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.busStop === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.busStop === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Otobüs</span>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="mt-2">Yakınındakiler</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.hospital" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.hospital=== true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.hospital=== false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Hastane</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.gym" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.gym === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.gym === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label">Okul</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.pharmacy" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.pharmacy === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.pharmacy === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Eczane</span>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.shoppingCenter" disabled>
+              <label class="checkmark" for="inlineCheckbox1">
+                <ng-container *ngIf="house.shoppingCenter === true">
+                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+                </ng-container>
+                <ng-container *ngIf="house.shoppingCenter === false">
+                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                </ng-container>
+              </label>
+              <span class="checkbox-label"> Avm</span>
+            </div>
+          </div>
+        </div>
+       
+
+
+  </div>
+  <!-- <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
+  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div> -->
+</div>

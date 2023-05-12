@@ -1,6 +1,7 @@
 import { Photo } from './photo';
 import { District } from './district';
 import { Town } from './town';
+import { Category } from './category';
 
 export interface House {
   id: number;
@@ -10,9 +11,6 @@ export interface House {
   description: string;
   price: number;
   photoUrl: string;
-  city: string;
-  town: string;
-  district: string;
   age: number;
   floor: string;
   bathroom: number;
@@ -35,7 +33,7 @@ export interface House {
   photos: Photo[];
   towns: Town[];
   districts: District[];
-  categories: [];
+  categories:Category [];
   hasNorthFrontage?: boolean;
   hasSouthFrontage?: boolean;
   hasEastFrontage?: boolean;
