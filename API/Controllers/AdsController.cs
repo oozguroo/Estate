@@ -1,12 +1,11 @@
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using API.DTOs;
-using API.Entities;
-using API.Entities.Homes;
+using API.Extensions;
 using API.Interfaces;
 using AutoMapper;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 
 namespace API.Controllers
@@ -15,9 +14,11 @@ namespace API.Controllers
     {
         private readonly IAdRepository _adRepository;
         private readonly IMapper _mapper;
+        private readonly IPhotoService _photoService;
 
-        public AdsController(IAdRepository adRepository, IMapper mapper)
+        public AdsController(IAdRepository adRepository, IMapper mapper, IPhotoService photoService)
         {
+            _photoService = photoService;
             _mapper = mapper;
             _adRepository = adRepository;
         }
@@ -30,65 +31,58 @@ namespace API.Controllers
         }
 
 
+
         [HttpGet("{id}")]
         public async Task<ActionResult<HouseDto>> GetOneHouse(int id)
         {
             return await _adRepository.GetHouseByIdAsync(id);
         }
 
-   [HttpPost("add")]
-public async Task<ActionResult<HouseDto>> CreateHouseAsync(HouseDto houseDto)
-{
-    if (!ModelState.IsValid)
-    {
-        return BadRequest(ModelState);
-    }
-
-    var house = _mapper.Map<HouseDto, House>(houseDto);
-    foreach (var categoryDto in houseDto.Categories)
-    {
-        var category = await _adRepository.GetCategoryAsync(categoryDto.Id);
-        if (category == null)
+    
+        [Authorize]
+        [HttpPost("add")]
+        public async Task<ActionResult<HouseDto>> CreateHouseAsync([FromForm] IFormFile file, [FromForm] HouseDto houseDto)
         {
-            throw new InvalidOperationException("Category not found");
+            var username = User.GetUsername();
+            var user = await _adRepository.GetUserByUsernameAsync(username);
+
+            if (user == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("Photo is required.");
+            }
+
+            // Upload the photo to Cloudinary
+            var uploadResult = await _photoService.AddPhotoAsync(file);
+
+            // Create a new PhotoDto object and set its properties
+            var photoDto = new PhotoDto
+            {
+                Url = uploadResult.SecureUrl.AbsoluteUri,
+                IsMain = true, // Set this property based on your logic
+                PublicId = uploadResult.PublicId
+            };
+
+            // Add the photo to the house's Photos list
+            houseDto.Photos.Add(photoDto);
+            
+
+            // Save the house to the database
+            var createdHouseDto = await _adRepository.CreateHouseAsync(houseDto);
+
+            return createdHouseDto;
         }
 
-        house.HouseCategories.Add(new HouseCategory
-        {
-            CategoryId = category.Id,
-        });
-    }
-    foreach (var townDto in houseDto.Towns)
-    {
-        var town = await _adRepository.GetTownAsync(townDto.Id);
-        if (town == null)
-        {
-            throw new InvalidOperationException("Town not found");
-        }
 
-        house.HouseTowns.Add(new HouseTown
-        {
-            TownId = town.Id,
-        });
-    }
-    foreach (var districtDto in houseDto.Districts)
-    {
-        var district = await _adRepository.GetDistrictAsync(districtDto.Id);
-        if (district == null)
-        {
-            throw new InvalidOperationException("District not found");
-        }
 
-        house.HouseDistricts.Add(new HouseDistrict
-        {
-            DistrictId = district.Id,
-        });
-    }
 
-    var createdHouseDto = await _adRepository.CreateHouseAsync(houseDto);
-
-    return CreatedAtAction(nameof(GetOneHouse), new { id = createdHouseDto.Id }, createdHouseDto);
-}
 
 
 

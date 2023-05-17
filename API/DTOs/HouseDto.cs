@@ -29,11 +29,10 @@ namespace API.DTOs
         public bool IsActive { get; set; } = true;
         public DateTime CreationDate { get; set; }
         public DateTime ExpirationDate { get; set; }
-
-        public List<PhotoDto> Photos { get; set; }
-        public List<TownDto> Towns { get; set; }
-        public List<DistrictDto> Districts { get; set; }
-        public List<CategoryDto> Categories { get; set; }
+        public List<PhotoDto> Photos { get; set; }= new List<PhotoDto>();
+        public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
+        public List<TownDto> Towns { get; set; } = new List<TownDto>();
+        public List<DistrictDto> Districts { get; set; } = new List<DistrictDto>();
 
         //Frontage
         public bool? HasNorthFrontage { get; set; }
