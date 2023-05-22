@@ -37,115 +37,23 @@ namespace API.Data
         .HasForeignKey(h => h.AppUserId)
         .OnDelete(DeleteBehavior.Cascade);
 
-    entity.HasMany(h => h.HouseCategories)
-        .WithOne(hc => hc.House)
-        .HasForeignKey(hc => hc.HouseId)
+    entity.HasOne(h => h.Category)
+           .WithMany(c => c.Houses)
+           .HasForeignKey(h => h.CategoryId)
+           .OnDelete(DeleteBehavior.Cascade);
+
+    entity.HasOne(h => h.Town)
+        .WithMany(t => t.Houses)
+        .HasForeignKey(h => h.TownId)
         .OnDelete(DeleteBehavior.Cascade);
 
-    entity.HasMany(h => h.HouseTowns)
-.WithOne(hc => hc.House)
-.HasForeignKey(hc => hc.HouseId)
-.OnDelete(DeleteBehavior.Cascade);
-
-    entity.HasMany(h => h.HouseDistricts)
-.WithOne(hc => hc.House)
-.HasForeignKey(hc => hc.HouseId)
-.OnDelete(DeleteBehavior.Cascade);
+    entity.HasOne(h => h.District)
+        .WithMany(d => d.Houses)
+        .HasForeignKey(h => h.DistrictId)
+        .OnDelete(DeleteBehavior.Cascade);
 
 
 });
-
-            ///Town
-            modelBuilder.Entity<Town>(entity =>
-            {
-                entity.ToTable("Towns");
-
-                entity.HasKey(c => c.Id);
-
-                entity.Property(c => c.Name)
-                    .IsRequired();
-            });
-
-            modelBuilder.Entity<HouseTown>(entity =>
-         {
-             entity.ToTable("HouseTowns");
-
-             entity.HasKey(hc => new { hc.HouseId, hc.TownId });
-
-
-
-             entity.HasOne(hc => hc.House)
-                 .WithMany(h => h.HouseTowns)
-                 .HasForeignKey(hc => hc.HouseId)
-                 .OnDelete(DeleteBehavior.Cascade);
-
-             entity.HasOne(hc => hc.Town)
-                 .WithMany(c => c.HouseTowns)
-                 .HasForeignKey(hc => hc.TownId)
-                 .OnDelete(DeleteBehavior.Cascade);
-         });
-
-
-
-            ///District
-            modelBuilder.Entity<District>(entity =>
-            {
-                entity.ToTable("Districts");
-
-                entity.HasKey(c => c.Id);
-
-                entity.Property(c => c.Name)
-                    .IsRequired();
-            });
-
-            modelBuilder.Entity<HouseDistrict>(entity =>
-         {
-             entity.ToTable("HouseDistricts");
-
-             entity.HasKey(hc => new { hc.HouseId, hc.DistrictId });
-
-             entity.HasOne(hc => hc.House)
-                 .WithMany(h => h.HouseDistricts)
-                 .HasForeignKey(hc => hc.HouseId)
-                 .OnDelete(DeleteBehavior.Cascade);
-
-             entity.HasOne(hc => hc.District)
-                 .WithMany(c => c.HouseDistricts)
-                 .HasForeignKey(hc => hc.DistrictId)
-                 .OnDelete(DeleteBehavior.Cascade);
-         });
-
-
-
-
-
-            ///Category
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.ToTable("Categories");
-
-                entity.HasKey(c => c.Id);
-
-                entity.Property(c => c.Name)
-                    .IsRequired();
-            });
-
-            modelBuilder.Entity<HouseCategory>(entity =>
-         {
-             entity.ToTable("HouseCategories");
-
-             entity.HasKey(hc => new { hc.HouseId, hc.CategoryId });
-
-             entity.HasOne(hc => hc.House)
-                 .WithMany(h => h.HouseCategories)
-                 .HasForeignKey(hc => hc.HouseId)
-                 .OnDelete(DeleteBehavior.Cascade);
-
-             entity.HasOne(hc => hc.Category)
-                 .WithMany(c => c.HouseCategories)
-                 .HasForeignKey(hc => hc.CategoryId)
-                 .OnDelete(DeleteBehavior.Cascade);
-         });
 
 
 

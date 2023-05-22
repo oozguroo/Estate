@@ -21,9 +21,9 @@ namespace API.Entities.Homes
         public byte Bathroom { get; set; }// byte
         public byte Balcony { get; set; } // byte
         public string Room { get; set; } //enum yapılacak
-        public Heath HeathType { get; set; } // enum for strings
+        public string HeathType { get; set; } // enum for strings
         public string ComplexName { get; set; }
-        public Deed DeedType { get; set; } //enum
+        public string DeedType { get; set; } //enum
         public bool Furnish { get; set; }
         public decimal Dues { get; set; } //
         public bool Exchange { get; set; }
@@ -36,9 +36,12 @@ namespace API.Entities.Homes
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;
         public DateTime ExpirationDate => CreationDate.AddDays(30);
         public List<Photo> Photos { get; set; } = new List<Photo>();
-        public List<HouseTown> HouseTowns { get; set; } = new List<HouseTown>();
-        public List<HouseDistrict> HouseDistricts { get; set; } = new List<HouseDistrict>();
-        public List<HouseCategory> HouseCategories { get; set; } = new List<HouseCategory>();
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+        public int TownId { get; set; }
+        public Town Town { get; set; }
+        public int DistrictId { get; set; }
+        public District District { get; set; }
         //Frontage
         public bool? HasNorthFrontage { get; set; }
         public bool? HasSouthFrontage { get; set; }
@@ -69,17 +72,16 @@ namespace API.Entities.Homes
         public bool? Pharmacy { get; set; }
         public bool? ShoppingCenter { get; set; }
 
-    }
-    public enum Heath
-    {
-        Kömür,
-        Doğalgaz,
-        Merkezi
+        public void CheckExpiration()
+        {
+            if (DateTime.UtcNow > ExpirationDate)
+            {
+                IsActive = false;
+            }
+        }
+
+
     }
 
-    public enum Deed
-    {
-        Tapu,
-        Kat,
-    }
+
 }

@@ -14,11 +14,9 @@ namespace API.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        private readonly IPhotoService _photoService;
 
-        public AdRepository(DataContext context, IMapper mapper, IPhotoService photoService)
+        public AdRepository(DataContext context, IMapper mapper)
         {
-            _photoService = photoService;
             _mapper = mapper;
             _context = context;
         }
@@ -34,12 +32,12 @@ namespace API.Data
                 .SingleOrDefaultAsync();
 
         }
-      public async Task<MemberDto> GetUserByIdAsync(int id)
+        public async Task<MemberDto> GetUserByIdAsync(int id)
         {
-              return await _context.Users
-            .Where(x => x.Id == id)
-     .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync();
+            return await _context.Users
+          .Where(x => x.Id == id)
+   .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+              .SingleOrDefaultAsync();
         }
 
 
@@ -51,8 +49,17 @@ namespace API.Data
                 .ProjectTo<HouseDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
+            var currentDate = DateTime.UtcNow;
+
+            foreach (var house in houses)
+            {
+                house.IsActive = house.ExpirationDate > currentDate;
+            }
+
             return houses;
         }
+
+
 
 
         public async Task<AppUser> GetUserByUsernameAsync(string username)
@@ -60,7 +67,7 @@ namespace API.Data
             return await _context.Users.SingleOrDefaultAsync(x => x.UserName == username);
         }
 
-  
+
 
         public void Update(House house)
         {
@@ -80,83 +87,31 @@ namespace API.Data
         }
 
 
-        public async Task<Category> GetCategoryAsync(int categoryId)
+        public async Task<NewHouseDto> CreateHouseAsync(NewHouseDto newHouseDto)
         {
-            var category = await _context.Categories.SingleOrDefaultAsync(c => c.Id == categoryId);
-            return category;
-        }
-
-        public async Task<Town> GetTownAsync(int townId)
-        {
-            var town = await _context.Towns.SingleOrDefaultAsync(c => c.Id == townId);
-            return town;
-        }
-
-        public async Task<District> GetDistrictAsync(int districtId)
-        {
-            var district = await _context.Districts.SingleOrDefaultAsync(c => c.Id == districtId);
-            return district;
-        }
-
-        public async Task<HouseDto> CreateHouseAsync(HouseDto houseDto)
-        {
-            // Retrieve and validate categories, towns, and districts
-            var categoryIds = houseDto.Categories.Select(c => c.Id).ToList();
-            var categories = await _context.Categories
-                .Where(c => categoryIds.Contains(c.Id))
-                .ToListAsync();
-
-            if (categories.Count != categoryIds.Count)
+            // Create a new House entity from the NewHouseDto using AutoMapper
+            var house = _mapper.Map<House>(newHouseDto);
+            foreach (var photoDto in newHouseDto.Photos)
             {
-                throw new InvalidOperationException("Invalid categories");
+                var photo = new Photo
+                {
+                    Url = photoDto.Url,
+                    IsMain = photoDto.IsMain,
+                    PublicId = photoDto.PublicId
+                };
+                house.Photos.Add(photo);
             }
 
-            var townIds = houseDto.Towns.Select(t => t.Id).ToList();
-            var towns = await _context.Towns
-                .Where(t => townIds.Contains(t.Id))
-                .ToListAsync();
-
-            if (towns.Count != townIds.Count)
-            {
-                throw new InvalidOperationException("Invalid towns");
-            }
-
-            var districtIds = houseDto.Districts.Select(d => d.Id).ToList();
-            var districts = await _context.Districts
-                .Where(d => districtIds.Contains(d.Id))
-                .ToListAsync();
-
-            if (districts.Count != districtIds.Count)
-            {
-                throw new InvalidOperationException("Invalid districts");
-            }
-
-            // Create a new House entity
-            var house = _mapper.Map<HouseDto, House>(houseDto);
-
-            // Set the AppUserId property
-            house.AppUserId = houseDto.AppUserId;
-
-            // Add house categories
-            house.HouseCategories.AddRange(categories.Select(c => new HouseCategory { Category = c }));
-
-            // Add house towns
-            house.HouseTowns.AddRange(towns.Select(t => new HouseTown { Town = t }));
-
-            // Add house districts
-            house.HouseDistricts.AddRange(districts.Select(d => new HouseDistrict { District = d }));
-
-            // Save the house to the database
+            // Add the new House entity to the database
             _context.Houses.Add(house);
             await _context.SaveChangesAsync();
 
-            // Map the created house back to a HouseDto
-            var createdHouseDto = _mapper.Map<House, HouseDto>(house);
 
-            return createdHouseDto;
+            // Map the new House entity to a HouseDto
+            var houseDto = _mapper.Map<HouseDto>(house);
+
+            return newHouseDto;
         }
-
-
 
 
     }

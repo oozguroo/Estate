@@ -1,7 +1,11 @@
-using API.Entities.Homes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace API.DTOs
 {
-    public class HouseDto
+    public class NewHouseDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -27,16 +31,11 @@ namespace API.DTOs
         public bool? Ramp { get; set; }
         public bool? Elevator { get; set; }
         public bool IsActive { get; set; } = true;
-        public DateTime CreationDate { get; set; }
         public DateTime ExpirationDate { get; set; }
         public List<PhotoDto> Photos { get; set; } = new List<PhotoDto>();
         public int CategoryId { get; set; } // Property for Category ID
         public int TownId { get; set; } // Property for Town ID
         public int DistrictId { get; set; } // Property for District ID
-        public string CategoryName { get; set; }
-        public string TownName { get; set; }
-        public string DistrictName { get; set; }
-
 
         //Frontage
         public bool? HasNorthFrontage { get; set; }
@@ -67,6 +66,5 @@ namespace API.DTOs
         public bool? Gym { get; set; }
         public bool? Pharmacy { get; set; }
         public bool? ShoppingCenter { get; set; }
-
     }
 }

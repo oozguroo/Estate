@@ -1,0 +1,42 @@
+i.fa.fa-heart[aria-hidden="true"] {
+    color: red;
+  }
+
+  .property-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .location-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .flex-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .location-details {
+    display: flex;
+    align-items: baseline;
+  }
+  
+  .location-details span {
+    margin: 0 3px; /* Adjust the margin as needed for spacing between townName and districtName */
+  }
+  
+  .text-muted {
+    margin-left: 5px; /* Adjust the margin as needed for spacing between creationDate and districtName */
+  }
+
+  .card-link {
+    color: black;
+    text-decoration: none;
+  }
+  
+
+
+  

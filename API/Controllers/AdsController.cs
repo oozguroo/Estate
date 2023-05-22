@@ -38,10 +38,10 @@ namespace API.Controllers
             return await _adRepository.GetHouseByIdAsync(id);
         }
 
-    
+
         [Authorize]
         [HttpPost("add")]
-        public async Task<ActionResult<HouseDto>> CreateHouseAsync([FromForm] IFormFile file, [FromForm] HouseDto houseDto)
+        public async Task<ActionResult<NewHouseDto>> CreateHouseAsync([FromForm] IFormFile file, [FromForm] NewHouseDto newHouseDto)
         {
             var username = User.GetUsername();
             var user = await _adRepository.GetUserByUsernameAsync(username);
@@ -71,18 +71,15 @@ namespace API.Controllers
             };
 
             // Add the photo to the house's Photos list
-            houseDto.Photos.Add(photoDto);
-            
+            newHouseDto.Photos.Add(photoDto);
 
-            // Save the house to the database
-            var createdHouseDto = await _adRepository.CreateHouseAsync(houseDto);
+            // Create the house using the repository method
+            var createdHouseDto = await _adRepository.CreateHouseAsync(newHouseDto);
 
             return createdHouseDto;
+
+
         }
-
-
-
-
 
 
 

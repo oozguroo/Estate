@@ -37,12 +37,12 @@ export class AdsDetailComponent implements OnInit {
     this.adsService.getHouse(houseId).subscribe({
       next: (house) => {
         this.house = house;
-        // Access the HouseLocations for the single House
+/*         // Access the HouseLocations for the single House
         this.houseTowns = house.towns;
         this.houseDistricts = house.districts;
 
         // Access the HouseCategories for the single House
-        this.houseCategories = house.categories;
+        this.houseCategories = house.categories; */
 
       },
     });

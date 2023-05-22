@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230508191553_ExtendedHouseFinal")]
-    partial class ExtendedHouseFinal
+    [Migration("20230521192126_CategoryTownDistrict")]
+    partial class CategoryTownDistrict
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,12 +56,11 @@ namespace API.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("API.Entities.District", b =>
@@ -73,12 +72,11 @@ namespace API.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Districts", (string)null);
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("API.Entities.Homes.House", b =>
@@ -104,6 +102,9 @@ namespace API.Data.Migrations
                     b.Property<bool?>("BusStop")
                         .HasColumnType("bit");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ComplexName")
                         .HasColumnType("nvarchar(max)");
 
@@ -113,11 +114,14 @@ namespace API.Data.Migrations
                     b.Property<bool?>("Credit")
                         .HasColumnType("bit");
 
-                    b.Property<int>("DeedType")
-                        .HasColumnType("int");
+                    b.Property<string>("DeedType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Dues")
                         .HasColumnType("decimal(18,2)");
@@ -167,8 +171,8 @@ namespace API.Data.Migrations
                     b.Property<bool?>("HasWifi")
                         .HasColumnType("bit");
 
-                    b.Property<int>("HeathType")
-                        .HasColumnType("int");
+                    b.Property<string>("HeathType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Hospital")
                         .HasColumnType("bit");
@@ -218,6 +222,9 @@ namespace API.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TownId")
+                        .HasColumnType("int");
+
                     b.Property<bool?>("Tramvay")
                         .HasColumnType("bit");
 
@@ -228,52 +235,13 @@ namespace API.Data.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Houses", (string)null);
-                });
-
-            modelBuilder.Entity("API.Entities.HouseCategory", b =>
-                {
-                    b.Property<int>("HouseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("HouseId", "CategoryId");
-
                     b.HasIndex("CategoryId");
-
-                    b.ToTable("HouseCategories", (string)null);
-                });
-
-            modelBuilder.Entity("API.Entities.HouseDistrict", b =>
-                {
-                    b.Property<int>("HouseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DistrictId")
-                        .HasColumnType("int");
-
-                    b.HasKey("HouseId", "DistrictId");
 
                     b.HasIndex("DistrictId");
 
-                    b.ToTable("HouseDistricts", (string)null);
-                });
-
-            modelBuilder.Entity("API.Entities.HouseTown", b =>
-                {
-                    b.Property<int>("HouseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TownId")
-                        .HasColumnType("int");
-
-                    b.HasKey("HouseId", "TownId");
-
                     b.HasIndex("TownId");
 
-                    b.ToTable("HouseTowns", (string)null);
+                    b.ToTable("Houses", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Photo", b =>
@@ -312,12 +280,11 @@ namespace API.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Towns", (string)null);
+                    b.ToTable("Towns");
                 });
 
             modelBuilder.Entity("API.Entities.Homes.House", b =>
@@ -328,62 +295,29 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("API.Entities.HouseCategory", b =>
-                {
                     b.HasOne("API.Entities.Category", "Category")
-                        .WithMany("HouseCategories")
+                        .WithMany("Houses")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Homes.House", "House")
-                        .WithMany("HouseCategories")
-                        .HasForeignKey("HouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("House");
-                });
-
-            modelBuilder.Entity("API.Entities.HouseDistrict", b =>
-                {
                     b.HasOne("API.Entities.District", "District")
-                        .WithMany("HouseDistricts")
+                        .WithMany("Houses")
                         .HasForeignKey("DistrictId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Homes.House", "House")
-                        .WithMany("HouseDistricts")
-                        .HasForeignKey("HouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("District");
-
-                    b.Navigation("House");
-                });
-
-            modelBuilder.Entity("API.Entities.HouseTown", b =>
-                {
-                    b.HasOne("API.Entities.Homes.House", "House")
-                        .WithMany("HouseTowns")
-                        .HasForeignKey("HouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.Town", "Town")
-                        .WithMany("HouseTowns")
+                        .WithMany("Houses")
                         .HasForeignKey("TownId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("House");
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("District");
 
                     b.Navigation("Town");
                 });
@@ -406,28 +340,22 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Category", b =>
                 {
-                    b.Navigation("HouseCategories");
+                    b.Navigation("Houses");
                 });
 
             modelBuilder.Entity("API.Entities.District", b =>
                 {
-                    b.Navigation("HouseDistricts");
+                    b.Navigation("Houses");
                 });
 
             modelBuilder.Entity("API.Entities.Homes.House", b =>
                 {
-                    b.Navigation("HouseCategories");
-
-                    b.Navigation("HouseDistricts");
-
-                    b.Navigation("HouseTowns");
-
                     b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("API.Entities.Town", b =>
                 {
-                    b.Navigation("HouseTowns");
+                    b.Navigation("Houses");
                 });
 #pragma warning restore 612, 618
         }

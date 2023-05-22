@@ -12,9 +12,7 @@ import { AdsService } from 'src/app/_services/ads.service';
 })
 export class AdsListComponent implements OnInit {
   houses: House[] = [];
-  houseTowns: Town[]= [];
-  houseDistricts: District[] = [];
-  houseCategories: Category[]=[];
+
 
 
   constructor(private adsService: AdsService) {}
@@ -27,11 +25,8 @@ export class AdsListComponent implements OnInit {
     this.adsService.getHouses().subscribe({
       next: (houses) => {
         this.houses = houses;
-        // Access the HouseLocations for each House
-        this.houseTowns = houses.flatMap((house) => house.towns);
-        this.houseDistricts = houses.flatMap((house) => house.districts);
-        // Access the HouseCategories for each House
-        this.houseCategories = houses.flatMap((house) => house.categories);
+ 
+
       },
     });
   }
