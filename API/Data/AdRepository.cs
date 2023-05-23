@@ -113,6 +113,19 @@ namespace API.Data
             return newHouseDto;
         }
 
+        public async Task<IEnumerable<Category>> GetCategoriesAsync()
+        {
+           return await _context.Categories.ToListAsync();
+        }
 
+        public async Task<IEnumerable<Town>> GetTownsAsync()
+        {
+                 return await _context.Towns.ToListAsync();
+        }
+
+        public async Task<IEnumerable<District>> GetDistrictsAsync()
+        {
+               return await _context.Districts.ToListAsync();
+        }
     }
 }

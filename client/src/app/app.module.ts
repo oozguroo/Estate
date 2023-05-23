@@ -5,7 +5,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -25,6 +25,9 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { TestErrorComponent } from './errors/test-error/test-error.component';
+import { AdsNewComponent } from './ads/ads-new/ads-new.component';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
+
 
 
 
@@ -47,7 +50,9 @@ import { TestErrorComponent } from './errors/test-error/test-error.component';
     MemberLoginComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    TestErrorComponent
+    TestErrorComponent,
+    AdsNewComponent,
+    TextInputComponent
    
 
   ],
@@ -57,7 +62,8 @@ import { TestErrorComponent } from './errors/test-error/test-error.component';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
     
     
   ],

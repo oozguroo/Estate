@@ -14,6 +14,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { TestErrorComponent } from './errors/test-error/test-error.component';
+import { AdsNewComponent } from './ads/ads-new/ads-new.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'help', component: MemberHelpComponent },
   { path: 'detail', component: MemberDetailComponent },
+  { path: 'new', component: AdsNewComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',

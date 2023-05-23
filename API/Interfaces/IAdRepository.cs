@@ -14,5 +14,9 @@ namespace API.Interfaces
         Task<AppUser> GetUserByUsernameAsync(string username);
         Task<NewHouseDto> CreateHouseAsync(NewHouseDto newHouseDto);
 
+        Task<IEnumerable<Category>> GetCategoriesAsync();
+        Task<IEnumerable<Town>> GetTownsAsync();
+        Task<IEnumerable<District>> GetDistrictsAsync();
+
     }
 }

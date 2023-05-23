@@ -30,7 +30,27 @@ namespace API.Controllers
             return Ok(houses);
         }
 
+        [HttpGet("categories")]
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
+        {
+            var categories = await _adRepository.GetCategoriesAsync();
+            return Ok(categories);
+        }
 
+
+        [HttpGet("towns")]
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetTowns()
+        {
+            var towns = await _adRepository.GetTownsAsync();
+            return Ok(towns);
+        }
+
+        [HttpGet("districts")]
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetDistricts()
+        {
+            var districts = await _adRepository.GetDistrictsAsync();
+            return Ok(districts);
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<HouseDto>> GetOneHouse(int id)

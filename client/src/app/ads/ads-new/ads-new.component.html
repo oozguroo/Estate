@@ -1,0 +1,235 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <form [formGroup]="houseForm" (ngSubmit)="houseForm.valid && submitHouseAd()" autocomplete="off">
+
+        <div class="form-group">
+          <label for="categories">Category</label>
+          <select id="categories" formControlName="category" class="form-control">
+            <option value="">Select a category</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+          <div class="text-danger"
+            *ngIf="$any(houseForm.get('category')).invalid && $any(houseForm.get('category')).touched">
+            Please select a Category
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="towns">Town</label>
+          <select id="towns" formControlName="category" class="form-control">
+            <option value="">Select a Town</option>
+            <option *ngFor="let town of towns" [value]="town.id">
+              {{ town.name }}
+            </option>
+          </select>
+          <div class="text-danger" *ngIf="$any(houseForm.get('town')).invalid && $any(houseForm.get('town')).touched">
+            Please select a Town
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="towns">District</label>
+          <select id="towns" formControlName="district" class="form-control">
+            <option value="">Select a District</option>
+            <option *ngFor="let district of districts" [value]="district.id">
+              {{ district.name }}
+            </option>
+          </select>
+          <div class="text-danger"
+            *ngIf="$any(houseForm.get('district')).invalid && $any(houseForm.get('district')).touched">
+            Please select a District
+          </div>
+        </div>
+
+
+
+        <div class="form-group mt-3">
+          <app-text-input [formControl]="$any(houseForm.controls['title'])" [label]="'Title'"></app-text-input>
+        </div>
+        <div class="form-group"> <app-text-input [formControl]="$any(houseForm.controls['description'])"
+            [label]="'Description'"></app-text-input></div>
+
+        <div class="form-group"><app-text-input [formControl]="$any(houseForm.controls['price'])"
+            [label]="'Price'"></app-text-input>
+        </div>
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['gross'])" [label]="'Gross M2'"></app-text-input>
+        </div>
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['square'])" [label]="'Square'"></app-text-input>
+        </div>
+
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['age'])" [label]="'Age'"></app-text-input>
+        </div>
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['deedType'])" [label]="'Deed Status'"></app-text-input>
+        </div>
+
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['floor'])" [label]="'Floor'"></app-text-input>
+        </div>
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['bathroom'])" [label]="'Bathroom'"></app-text-input>
+        </div>
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['balcony'])" [label]="'balcony'"></app-text-input>
+        </div>
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['room'])" [label]="'Room'"></app-text-input>
+        </div>
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['heathType'])" [label]="'Heath'"></app-text-input>
+        </div>
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['complexName'])"
+            [label]="'complexName'"></app-text-input>
+        </div>
+        <div class="form-group mt-3">
+          <app-text-input [formControl]="$any(houseForm.controls['dues'])" [label]="'Due'"></app-text-input>
+        </div>
+
+        <div class="form-group">
+          <app-text-input [formControl]="$any(houseForm.controls['deedType'])" [label]="'Deed'"></app-text-input>
+        </div>
+        <h6 class="mt-2">Options</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="furnished">Furnished</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="furnished" formControlName="furnish" class="form-check-input"
+                      (change)="onChange($event, 'furnish')">
+                    <label class="form-check-label" for="furnished">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="credit">Credit</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="credit" formControlName="credit" class="form-check-input"
+                      (change)="onChange($event, 'credit')">
+                    <label class="form-check-label" for="credit">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="exchange">Exchange</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="exchange" formControlName="exchange" class="form-check-input"
+                      (change)="onChange($event, 'exchange')">
+                    <label class="form-check-label" for="exchange">Yes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Frontage -->
+        <h6 class="mt-2">Frontage</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="hasNorthFrontage">North</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="hasNorthFrontage" formControlName="hasNorthFrontage" class="form-check-input"
+                      (change)="onChange($event, 'hasNorthFrontage')">
+                    <label class="form-check-label" for="hasNorthFrontage">Yes</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="hasSouthFrontage">South</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="hasSouthFrontage" formControlName="hasSouthFrontage" class="form-check-input"
+                      (change)="onChange($event, 'hasSouthFrontage')">
+                    <label class="form-check-label" for="hasSouthFrontage">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="hasEastFrontage">East</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="hasEastFrontage" formControlName="hasEastFrontage" class="form-check-input"
+                      (change)="onChange($event, 'hasEastFrontage')">
+                    <label class="form-check-label" for="hasEastFrontage">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="hasWestFrontage">West</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="hasWestFrontage" formControlName="hasWestFrontage" class="form-check-input"
+                      (change)="onChange($event, 'hasWestFrontage')">
+                    <label class="form-check-label" for="hasWestFrontage">Yes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- View -->
+        <h6 class="mt-2">View</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="nature">Nature</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="nature" formControlName="nature" class="form-check-input"
+                      (change)="onChange($event, 'nature')">
+                    <label class="form-check-label" for="nature">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="sea">Sea</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="sea" formControlName="sea" class="form-check-input"
+                      (change)="onChange($event, 'sea')">
+                    <label class="form-check-label" for="sea">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="lake">Lake</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="lake" formControlName="lake" class="form-check-input"
+                      (change)="onChange($event, 'lake')">
+                    <label class="form-check-label" for="lake">Yes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- Add more form fields if needed -->
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
