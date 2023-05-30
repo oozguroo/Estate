@@ -39,6 +39,7 @@ namespace API.Helpers
                  .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => new PhotoDto { Id = p.Id, Url = p.Url, IsMain = p.IsMain }).ToList())).ReverseMap();
 
             CreateMap<NewHouseDto, House>()
+            .ForMember(dest => dest.AppUserId, opt=> opt.MapFrom(src=>src.AppUserId))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                 .ForMember(dest => dest.TownId, opt => opt.MapFrom(src => src.TownId))
                 .ForMember(dest => dest.DistrictId, opt => opt.MapFrom(src => src.DistrictId))

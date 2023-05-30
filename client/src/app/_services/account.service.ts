@@ -16,20 +16,36 @@ export class AccountService {
 
   constructor(private http: HttpClient) {}
 
+  setCurrentUser(user: User) {
+    const { id, username } = user;
+    const currentUser: User = {
+      id,
+      username,
+      token: '', // Add the token property here
+    };
+    this.currentUserSource.next(currentUser);
+  }
+  
+  
 
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
-        const user = response;
-        if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+        const { id, username } = response;
+        if (id && username) {
+          const currentUser: User = {
+            id,
+            username,
+            token: '', // Add the token property here
+          };
+          localStorage.setItem('user', JSON.stringify(response));
+          this.setCurrentUser(currentUser);
         }
       })
     );
   }
-
+  
   register(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       map((user) => {
@@ -42,9 +58,7 @@ export class AccountService {
     );
   }
 
-  setCurrentUser(user: User) {
-    this.currentUserSource.next(user);
-  }
+ 
 
   logout() {
     localStorage.removeItem('user');

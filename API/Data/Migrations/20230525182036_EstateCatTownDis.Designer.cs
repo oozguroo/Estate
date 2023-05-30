@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230521192126_CategoryTownDistrict")]
-    partial class CategoryTownDistrict
+    [Migration("20230525182036_EstateCatTownDis")]
+    partial class EstateCatTownDis
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,11 +93,11 @@ namespace API.Data.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("int");
 
-                    b.Property<byte>("Balcony")
-                        .HasColumnType("tinyint");
+                    b.Property<string>("Balcony")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte>("Bathroom")
-                        .HasColumnType("tinyint");
+                    b.Property<string>("Bathroom")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("BusStop")
                         .HasColumnType("bit");
@@ -123,25 +123,22 @@ namespace API.Data.Migrations
                     b.Property<int>("DistrictId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Dues")
+                    b.Property<decimal?>("Dues")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool?>("Elevator")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Exchange")
+                    b.Property<bool?>("Exchange")
                         .HasColumnType("bit");
 
                     b.Property<string>("Floor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Furnish")
+                    b.Property<bool?>("Furnish")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("Generator")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Gross")
+                    b.Property<decimal?>("Gross")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool?>("Gym")
@@ -171,7 +168,7 @@ namespace API.Data.Migrations
                     b.Property<bool?>("HasWifi")
                         .HasColumnType("bit");
 
-                    b.Property<string>("HeathType")
+                    b.Property<string>("Heath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Hospital")
@@ -198,9 +195,6 @@ namespace API.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool?>("Ramp")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Room")
                         .HasColumnType("nvarchar(max)");
 
@@ -213,7 +207,7 @@ namespace API.Data.Migrations
                     b.Property<bool?>("ShoppingCenter")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Square")
+                    b.Property<decimal?>("Square")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool?>("SwimmingPool")

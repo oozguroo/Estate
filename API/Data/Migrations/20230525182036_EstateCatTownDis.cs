@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class CategoryTownDistrict : Migration
+    public partial class EstateCatTownDis : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,20 +62,18 @@ namespace API.Data.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Age = table.Column<short>(type: "smallint", nullable: false),
                     Floor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bathroom = table.Column<byte>(type: "tinyint", nullable: false),
-                    Balcony = table.Column<byte>(type: "tinyint", nullable: false),
+                    Bathroom = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Balcony = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Room = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HeathType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Heath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ComplexName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeedType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Furnish = table.Column<bool>(type: "bit", nullable: false),
-                    Dues = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Exchange = table.Column<bool>(type: "bit", nullable: false),
+                    Furnish = table.Column<bool>(type: "bit", nullable: true),
+                    Dues = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Exchange = table.Column<bool>(type: "bit", nullable: true),
                     Credit = table.Column<bool>(type: "bit", nullable: true),
-                    Gross = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Square = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Ramp = table.Column<bool>(type: "bit", nullable: true),
-                    Elevator = table.Column<bool>(type: "bit", nullable: true),
+                    Gross = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Square = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),

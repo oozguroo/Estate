@@ -7,7 +7,6 @@ namespace API.DTOs
 {
     public class NewHouseDto
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public int AppUserId { get; set; }
         public string UserName { get; set; }
@@ -16,20 +15,18 @@ namespace API.DTOs
         public int Price { get; set; }
         public short Age { get; set; }
         public string Floor { get; set; }
-        public byte Bathroom { get; set; }
-        public byte Balcony { get; set; }
+        public string Bathroom { get; set; }
+        public string Balcony { get; set; }
         public string Room { get; set; }
-        public string HeathType { get; set; } // enum for strings
+        public string Heath { get; set; } // enum for strings
         public string ComplexName { get; set; }
         public string DeedType { get; set; } //enum
-        public bool Furnish { get; set; }
-        public decimal Dues { get; set; }
-        public bool Exchange { get; set; }
+        public bool? Furnish { get; set; }
+        public decimal? Dues { get; set; }
+        public bool? Exchange { get; set; }
         public bool? Credit { get; set; }
-        public decimal Gross { get; set; }
-        public decimal Square { get; set; }
-        public bool? Ramp { get; set; }
-        public bool? Elevator { get; set; }
+        public decimal? Gross { get; set; }
+        public decimal? Square { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTime ExpirationDate { get; set; }
         public List<PhotoDto> Photos { get; set; } = new List<PhotoDto>();

@@ -24,10 +24,25 @@ export class AdsService {
   getHouse(id: number) {
     return this.http.get<House>(`${this.baseUrl}ads/${id}?includeHouseCategories=true&includeTowns=true`);
   }
+  createHouseAd(formData: FormData, appUserId: number, categoryId: number, townId: number, districtId: number, photo: File): Observable<any> {
+    formData.append('appUserId', appUserId.toString());
+    formData.append('categoryId', categoryId.toString());
+    formData.append('townId', townId.toString());
+    formData.append('districtId', districtId.toString());
   
-  createHouseAd(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}ads/add`, formData);
+    // Append the photo to the formData
+    formData.append('file', photo, photo.name);
+  
+    let headers = new HttpHeaders();
+    headers = headers.append('Accept', 'application/json');
+  
+    return this.http.post<any>(`${this.baseUrl}ads/add`, formData, { headers });
   }
+  
+  
+  
+  
+  
   getHouseCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.baseUrl}ads/categories`);
   }

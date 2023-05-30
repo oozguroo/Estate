@@ -15,23 +15,22 @@ namespace API.Entities.Homes
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; } //int
-        public short Age { get; set; } // short tipi
+        public int Price { get; set; } 
+        public short Age { get; set; }
         public string Floor { get; set; }
-        public byte Bathroom { get; set; }// byte
-        public byte Balcony { get; set; } // byte
-        public string Room { get; set; } //enum yapılacak
-        public string HeathType { get; set; } // enum for strings
+        public string Bathroom { get; set; }
+        public string Balcony { get; set; }
+        public string Room { get; set; } 
+        public string Heath { get; set; }
         public string ComplexName { get; set; }
-        public string DeedType { get; set; } //enum
-        public bool Furnish { get; set; }
-        public decimal Dues { get; set; } //
-        public bool Exchange { get; set; }
+        public string DeedType { get; set; } //forget too add this
+        public bool? Furnish { get; set; }
+        public decimal? Dues { get; set; } //
+        public bool? Exchange { get; set; }
         public bool? Credit { get; set; }
-        public decimal Gross { get; set; }
-        public decimal Square { get; set; }
-        public bool? Ramp { get; set; }
-        public bool? Elevator { get; set; }
+        public decimal? Gross { get; set; }
+        public decimal? Square { get; set; }
+
         public bool IsActive { get; set; } = true;
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;
         public DateTime ExpirationDate => CreationDate.AddDays(30);

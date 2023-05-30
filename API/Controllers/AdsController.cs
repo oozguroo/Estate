@@ -59,16 +59,10 @@ namespace API.Controllers
         }
 
 
-        [Authorize]
+      
         [HttpPost("add")]
         public async Task<ActionResult<NewHouseDto>> CreateHouseAsync([FromForm] IFormFile file, [FromForm] NewHouseDto newHouseDto)
         {
-            var username = User.GetUsername();
-            var user = await _adRepository.GetUserByUsernameAsync(username);
-
-            if (user == null)
-                return NotFound();
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

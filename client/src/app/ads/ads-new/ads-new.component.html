@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
-      <form [formGroup]="houseForm" (ngSubmit)="houseForm.valid && submitHouseAd()" autocomplete="off">
+      <form [formGroup]="houseForm" (ngSubmit)="houseForm.valid && submitHouseAd()">
 
         <div class="form-group">
           <label for="categories">Category</label>
-          <select id="categories" formControlName="category" class="form-control">
+          <select formControlName="category" class="form-control">
             <option value="">Select a category</option>
             <option *ngFor="let category of categories" [value]="category.id">
               {{ category.name }}
@@ -17,9 +17,10 @@
           </div>
         </div>
 
+
         <div class="form-group">
           <label for="towns">Town</label>
-          <select id="towns" formControlName="category" class="form-control">
+          <select id="towns" formControlName="town" class="form-control">
             <option value="">Select a Town</option>
             <option *ngFor="let town of towns" [value]="town.id">
               {{ town.name }}
@@ -31,8 +32,8 @@
         </div>
 
         <div class="form-group">
-          <label for="towns">District</label>
-          <select id="towns" formControlName="district" class="form-control">
+          <label for="district">District</label>
+          <select id="district" formControlName="district" class="form-control">
             <option value="">Select a District</option>
             <option *ngFor="let district of districts" [value]="district.id">
               {{ district.name }}
@@ -55,6 +56,7 @@
         <div class="form-group"><app-text-input [formControl]="$any(houseForm.controls['price'])"
             [label]="'Price'"></app-text-input>
         </div>
+
         <div class="form-group">
           <app-text-input [formControl]="$any(houseForm.controls['gross'])" [label]="'Gross M2'"></app-text-input>
         </div>
@@ -82,7 +84,7 @@
           <app-text-input [formControl]="$any(houseForm.controls['room'])" [label]="'Room'"></app-text-input>
         </div>
         <div class="form-group">
-          <app-text-input [formControl]="$any(houseForm.controls['heathType'])" [label]="'Heath'"></app-text-input>
+          <app-text-input [formControl]="$any(houseForm.controls['heath'])" [label]="'Heath'"></app-text-input>
         </div>
         <div class="form-group">
           <app-text-input [formControl]="$any(houseForm.controls['complexName'])"
@@ -92,9 +94,6 @@
           <app-text-input [formControl]="$any(houseForm.controls['dues'])" [label]="'Due'"></app-text-input>
         </div>
 
-        <div class="form-group">
-          <app-text-input [formControl]="$any(houseForm.controls['deedType'])" [label]="'Deed'"></app-text-input>
-        </div>
         <h6 class="mt-2">Options</h6>
         <div class="card">
           <div class="card-body">
@@ -125,6 +124,8 @@
                   <div class="form-check">
                     <input type="checkbox" id="exchange" formControlName="exchange" class="form-check-input"
                       (change)="onChange($event, 'exchange')">
+  
+
                     <label class="form-check-label" for="exchange">Yes</label>
                   </div>
                 </div>
@@ -137,12 +138,13 @@
         <div class="card">
           <div class="card-body">
             <div class="row">
+
               <div class="col-3">
                 <div class="form-group">
                   <label for="hasNorthFrontage">North</label>
                   <div class="form-check">
-                    <input type="checkbox" id="hasNorthFrontage" formControlName="hasNorthFrontage" class="form-check-input"
-                      (change)="onChange($event, 'hasNorthFrontage')">
+                    <input type="checkbox" id="hasNorthFrontage" formControlName="hasNorthFrontage"
+                      class="form-check-input" (change)="onChange($event, 'hasNorthFrontage')">
                     <label class="form-check-label" for="hasNorthFrontage">Yes</label>
                   </div>
                 </div>
@@ -152,8 +154,8 @@
                 <div class="form-group">
                   <label for="hasSouthFrontage">South</label>
                   <div class="form-check">
-                    <input type="checkbox" id="hasSouthFrontage" formControlName="hasSouthFrontage" class="form-check-input"
-                      (change)="onChange($event, 'hasSouthFrontage')">
+                    <input type="checkbox" id="hasSouthFrontage" formControlName="hasSouthFrontage"
+                      class="form-check-input" (change)="onChange($event, 'hasSouthFrontage')">
                     <label class="form-check-label" for="hasSouthFrontage">Yes</label>
                   </div>
                 </div>
@@ -162,8 +164,8 @@
                 <div class="form-group">
                   <label for="hasEastFrontage">East</label>
                   <div class="form-check">
-                    <input type="checkbox" id="hasEastFrontage" formControlName="hasEastFrontage" class="form-check-input"
-                      (change)="onChange($event, 'hasEastFrontage')">
+                    <input type="checkbox" id="hasEastFrontage" formControlName="hasEastFrontage"
+                      class="form-check-input" (change)="onChange($event, 'hasEastFrontage')">
                     <label class="form-check-label" for="hasEastFrontage">Yes</label>
                   </div>
                 </div>
@@ -172,8 +174,8 @@
                 <div class="form-group">
                   <label for="hasWestFrontage">West</label>
                   <div class="form-check">
-                    <input type="checkbox" id="hasWestFrontage" formControlName="hasWestFrontage" class="form-check-input"
-                      (change)="onChange($event, 'hasWestFrontage')">
+                    <input type="checkbox" id="hasWestFrontage" formControlName="hasWestFrontage"
+                      class="form-check-input" (change)="onChange($event, 'hasWestFrontage')">
                     <label class="form-check-label" for="hasWestFrontage">Yes</label>
                   </div>
                 </div>
@@ -187,6 +189,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-3">
+
                 <div class="form-group">
                   <label for="nature">Nature</label>
                   <div class="form-check">
@@ -219,16 +222,274 @@
             </div>
           </div>
         </div>
+        <!-- Interior -->
+        <h6 class="mt-2"> Interior</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="hasWifi">Wifi</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="hasWifi" formControlName="hasWifi" class="form-check-input"
+                      (change)="onChange($event, 'hasWifi')">
+                    <label class="form-check-label" for="hasWifi">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="hasSteelDoors">Steel Doors</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="hasSteelDoors" formControlName="hasSteelDoors" class="form-check-input"
+                      (change)="onChange($event, 'hasSteelDoors')">
+                    <label class="form-check-label" for="hasSteelDoors">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="hasElevator">Elevator</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="hasElevator" formControlName="hasElevator" class="form-check-input"
+                      (change)="onChange($event, 'hasElevator')">
+                    <label class="form-check-label" for="hasElevator">Yes</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="hasChimney">Chimney</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="hasChimney" formControlName="hasChimney" class="form-check-input"
+                      (change)="onChange($event, 'lake')">
+                    <label class="form-check-label" for="hasChimney">Yes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- External -->
+        <h6 class="mt-2"> External</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="swimmingPool">Swimning Pool</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="swimmingPool" formControlName="swimmingPool" class="form-check-input"
+                      (change)="onChange($event, 'swimmingPool')">
+                    <label class="form-check-label" for="swimmingPool">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="generator">Generator</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="generator" formControlName="generator" class="form-check-input"
+                      (change)="onChange($event, 'generator')">
+                    <label class="form-check-label" for="generator">Yes</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="parking">Parking</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="parking" formControlName="parking" class="form-check-input"
+                      (change)="onChange($event, 'parking')">
+                    <label class="form-check-label" for="parking">Yes</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="satellite">Satellite</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="satellite" formControlName="satellite" class="form-check-input"
+                      (change)="onChange($event, 'satellite')">
+                    <label class="form-check-label" for="satellite">Yes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transportation -->
+        <h6 class="mt-2"> Transportation</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="metro">Metro</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="metro" formControlName="metro" class="form-check-input"
+                      (change)="onChange($event, 'metro')">
+                    <label class="form-check-label" for="metro">Yes</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="tramvay">Tram</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="tramvay" formControlName="tramvay" class="form-check-input"
+                      (change)="onChange($event, 'tramvay')">
+                    <label class="form-check-label" for="tramvay">Yes</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="van">Van</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="van" formControlName="van" class="form-check-input"
+                      (change)="onChange($event, 'van')">
+                    <label class="form-check-label" for="parking">Yes</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="busStop">Bus Stop</label>
+                  <div class="form-check">
+                    <input type="checkbox" id="busStop" formControlName="busStop" class="form-check-input"
+                      (change)="onChange($event, 'busStop')">
+                    <label class="form-check-label" for="busStop">Yes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  <!-- Nearby -->
+  <h6 class="mt-2"> Nearby</h6>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+    
 
 
 
 
+        <div class="col-3">
+          <div class="form-group">
+            <label for="hospital">Hospital</label>
+            <div class="form-check">
+              <input type="checkbox" id="hospital" formControlName="hospital" class="form-check-input"
+                (change)="onChange($event, 'hospital')">
+              <label class="form-check-label" for="hospital">Yes</label>
+            </div>
+          </div>
+        </div>
 
+        <div class="col-3">
+          <div class="form-group">
+            <label for="gym">Gym</label>
+            <div class="form-check">
+              <input type="checkbox" id="gym" formControlName="gym" class="form-check-input"
+                (change)="onChange($event, 'gym')">
+              <label class="form-check-label" for="gym">Yes</label>
+            </div>
+          </div>
+        </div>
 
+        <div class="col-3">
+          <div class="form-group">
+            <label for="pharmacy">Pharmacy</label>
+            <div class="form-check">
+              <input type="checkbox" id="pharmacy" formControlName="pharmacy" class="form-check-input"
+                (change)="onChange($event, 'pharmacy')">
+              <label class="form-check-label" for="pharmacy">Yes</label>
+            </div>
+          </div>
+        </div>
 
-        <!-- Add more form fields if needed -->
+        <div class="col-3">
+          <div class="form-group">
+            <label for="shoppingCenter">Shopping Center</label>
+            <div class="form-check">
+              <input type="checkbox" id="shoppingCenter" formControlName="shoppingCenter" class="form-check-input"
+                (change)="onChange($event, 'shoppingCenter')">
+              <label class="form-check-label" for="shoppingCenter">Yes</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+  
+<!-- Photo -->
+<h6 class="mt-2">Photo</h6>
+<div class="row">
+  <div class="col-3">
+    <h3>Add Photos</h3>
+    <div ng2FileDrop
+         [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+         (fileOver)="fileOverBase($event)"
+         [uploader]="uploader"
+         class="card bg-faded p-3 text-center mb-3 my-drop-zone">
+      <i class="fa fa-upload fa-3x"></i>
+      Drop photos here
+    </div>
+    Multiple
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple /><br/>
+    Single
+    <input type="file" ng2FileSelect [uploader]="uploader" />
+  </div>
+  <div class="col-9" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+    <h3>Upload queue</h3>
+    <p>Queue length: {{ uploader.queue.length }}</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="50%">Name</th>
+          <th>Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of uploader?.queue">
+          <td><strong>{{ item?.file?.name }}</strong></td>
+          <td *ngIf="uploader?.options?.isHTML5" nowrap>
+            {{ item?.file?.size/1024/1024 | number:'.2' }} MB
+          </td>
+        </tr>
+      </tbody>
+    </table>
+   <!-- Photo Upload Section -->
+
+<div>
+  <div>
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple>
+  </div>
+  <div>
+    <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+      <span class="fa fa-ban"></span> Cancel Upload
+    </button>
+    <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+      <span class="fa fa-trash"></span> Remove All Photos
+    </button>
+  </div>
+</div>
+<div>
+</div>
+  </div>
+</div>
+    <button type="button" class="btn btn-primary" (click)="submitHouseAd()">Submit</button>
       </form>
     </div>
   </div>
