@@ -67,7 +67,7 @@ namespace API.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            var uploadedFile = Request.Form.Files.FirstOrDefault();
             if (file == null || file.Length == 0)
             {
                 return BadRequest("Photo is required.");
@@ -89,10 +89,9 @@ namespace API.Controllers
 
             // Create the house using the repository method
             var createdHouseDto = await _adRepository.CreateHouseAsync(newHouseDto);
+            
 
             return createdHouseDto;
-
-
         }
 
 

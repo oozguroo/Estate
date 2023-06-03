@@ -43,3 +43,15 @@
 
 
 
+.location-details {
+  display: flex;
+  align-items: center;
+}
+
+.location-text {
+  flex: 1;
+}
+
+.price-text {
+  margin-left: 20px; /* Adjust the margin as per your preference */
+}

@@ -24,6 +24,8 @@ export class AdsService {
   getHouse(id: number) {
     return this.http.get<House>(`${this.baseUrl}ads/${id}?includeHouseCategories=true&includeTowns=true`);
   }
+
+  
   createHouseAd(formData: FormData, appUserId: number, categoryId: number, townId: number, districtId: number, photo: File): Observable<any> {
     formData.append('appUserId', appUserId.toString());
     formData.append('categoryId', categoryId.toString());

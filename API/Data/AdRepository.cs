@@ -32,17 +32,8 @@ namespace API.Data
                 .SingleOrDefaultAsync();
 
         }
-        public async Task<MemberDto> GetUserByIdAsync(int id)
-        {
-            return await _context.Users
-          .Where(x => x.Id == id)
-   .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-              .SingleOrDefaultAsync();
-        }
 
-
-
-
+        
         public async Task<IEnumerable<HouseDto>> GetHousesAsync()
         {
             var houses = await _context.Houses
@@ -58,6 +49,18 @@ namespace API.Data
 
             return houses;
         }
+
+        public async Task<MemberDto> GetUserByIdAsync(int id)
+        {
+            return await _context.Users
+          .Where(x => x.Id == id)
+   .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+              .SingleOrDefaultAsync();
+        }
+
+
+
+
 
 
 
@@ -79,13 +82,13 @@ namespace API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public void AddHouse(House house)
+      /*   public void AddHouse(House house)
         {
             // Add the house to the database or perform any necessary operations
             _context.Houses.Add(house);
             _context.SaveChanges();
         }
-
+ */
 
         public async Task<NewHouseDto> CreateHouseAsync(NewHouseDto newHouseDto)
         {
@@ -105,10 +108,7 @@ namespace API.Data
             // Add the new House entity to the database
             _context.Houses.Add(house);
             await _context.SaveChangesAsync();
-
-
-            // Map the new House entity to a HouseDto
-            var houseDto = _mapper.Map<HouseDto>(house);
+            newHouseDto.Id = house.Id;
 
             return newHouseDto;
         }

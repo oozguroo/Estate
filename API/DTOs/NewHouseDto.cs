@@ -7,6 +7,7 @@ namespace API.DTOs
 {
     public class NewHouseDto
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public int AppUserId { get; set; }
         public string UserName { get; set; }

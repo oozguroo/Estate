@@ -11,8 +11,17 @@ namespace API.Helpers
 
         public AutoMapperProfiles()
         {
-            CreateMap<AppUser, MemberDto>();
-            CreateMap<AppUser, HouseDto>();
+            CreateMap<AppUser, MemberDto>()
+             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+             .ReverseMap();
+            CreateMap<HouseDto, MemberDto>();
+    
+            CreateMap<AppUser, MemberDto>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.Houses, opt => opt.MapFrom(src => src.Houses))
+               /*  .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => new PhotoDto { Id = p.Id, Url = p.Url, IsMain = p.IsMain }).ToList())) */
+                .ReverseMap();
+
 
             // Category
             CreateMap<Town, TownDto>();
@@ -31,6 +40,7 @@ namespace API.Helpers
             CreateMap<PhotoDto, Photo>();
 
             CreateMap<House, NewHouseDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                 .ForMember(dest => dest.TownId, opt => opt.MapFrom(src => src.TownId))
                 .ForMember(dest => dest.DistrictId, opt => opt.MapFrom(src => src.DistrictId))
@@ -39,7 +49,8 @@ namespace API.Helpers
                  .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => new PhotoDto { Id = p.Id, Url = p.Url, IsMain = p.IsMain }).ToList())).ReverseMap();
 
             CreateMap<NewHouseDto, House>()
-            .ForMember(dest => dest.AppUserId, opt=> opt.MapFrom(src=>src.AppUserId))
+             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.AppUserId, opt => opt.MapFrom(src => src.AppUserId))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                 .ForMember(dest => dest.TownId, opt => opt.MapFrom(src => src.TownId))
                 .ForMember(dest => dest.DistrictId, opt => opt.MapFrom(src => src.DistrictId))

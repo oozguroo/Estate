@@ -1,1 +1,47 @@
-<p>member-detail works!</p>
+
+<div class="row">
+  <div class="col-12 col-md-8 order-md-1 order-2">
+    <div *ngIf="member">
+      <div class="card house-card" *ngFor="let house of member.houses" (click)="redirectToAdDetail(house.id)">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img class="card-img-top" [src]="getMainPhotoUrl(house)" alt="House photo">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ house.title }}</h5>
+              <p class="card-text">House details...</p>
+              <p>{{ member.userName }}</p>
+              <!-- Add more house details here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+  
+  <div class="col-xs-6 col-md-4 order-md-2 order-1">
+    <!-- User -->
+    <div class="card user-card mt-4"> <!-- Add user-card class -->
+      <div class="user mt-2" *ngIf="member">
+        <table>
+          <tr>
+            <td>
+              <strong><i class="fa fa-user-circle-o mt-2 ml-2" aria-hidden="true"></i> İlan Sahibi:</strong>
+            </td>
+            <td>{{ member.userName | uppercase }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong><i class="fa fa-phone mt-2" aria-hidden="true"></i> Telefon:</strong>
+            </td>
+            <td>**</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <button type="button" class="btn btn-info mt-2 mb-3 w-100">Message</button>
+  </div>
+</div>

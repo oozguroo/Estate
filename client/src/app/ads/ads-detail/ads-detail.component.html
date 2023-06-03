@@ -1,14 +1,24 @@
 <!-- Stack the columns on mobile by making one full-width and the other half-width -->
-<div class="row">
-  <div class="col-xs-12 col-md-8">
-    <h2>{{house.title}}</h2>
-  </div>
-  <div class="col-xs-6 col-md-4">
-   <!-- Boş alan -->
-
-   Empty place
+<!-- Show a loading spinner while the data for the house is being loaded -->
+<div *ngIf="!house">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
 </div>
+
+<!-- Show the data for the house once it has been loaded -->
+<div *ngIf="house" class="house">
+  <div class="row">
+    <div class="col-xs-12 col-md-8">
+      <h2>{{ house.title }}</h2>
+    </div>
+    <div class="col-xs-6 col-md-4">
+      <!-- Boş alan -->
+      Empty place
+    </div>
+  </div>
+</div>
+
 
 <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
 <div class="row">
@@ -16,29 +26,23 @@
     <!-- Photo -->
      <img class="house-image" src="{{house.photoUrl}}" alt="House Photo">
   </div>
+  
   <div class="col-xs-6 col-md-4">
    <!--  İlan Detay -->
-   <div class="table-responsive" >
-    <table class="table table-striped table-sm">
-      <h4>{{ house.price | number:'1.0-0' }} ₺</h4>
-      <div class="row">
-        <div class="col-xs-6 col-md-4">
-          <p>
-<!--             <ng-container *ngFor="let town of houseTowns; let last = last">
-              {{ town.name }}{{ last ? '' : ' - ' }} 
-            </ng-container> -->
-          </p>
-        </div>
-        <div class="col-xs-6 col-md-4">
-<!--           <p>
-            <ng-container *ngFor="let district of houseDistricts; let last = last">
-              {{ district.name }}{{ last ? '' : ' - ' }}
-            </ng-container>
-          </p> -->
-        </div>
-      </div>
-      
-      
+   
+   <div class="location-details">
+    <div class="location-text">
+      <h5 class="town">{{ house.townName }} / {{ house.districtName }}</h5>
+    </div>
+    <div class="price-text">
+      <h5>{{ house.price | number:'1.0-0' }} ₺</h5>
+    </div>
+  </div>
+  
+
+
+    <div class="table-responsive">
+      <table class="table table-striped table-sm">
       <tbody>
         <tr>
           <th>İlan No</th>
@@ -528,9 +532,8 @@
           </div>
         </div>
        
-
-
-  </div>
+      </div>
+      </div>
+ 
   <!-- <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
   <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div> -->
-</div>

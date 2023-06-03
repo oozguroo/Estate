@@ -5,7 +5,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
 import { Category } from 'src/app/_models/category';
 import { District } from 'src/app/_models/district';
@@ -34,7 +36,10 @@ export class AdsNewComponent implements OnInit {
   constructor(
     private adsService: AdsService,
     private formBuilder: FormBuilder,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private toastr:ToastrService,
+    private router:Router,
+ 
   ) {
     this.initializeForm();
     this.uploader = new FileUploader({
@@ -163,6 +168,7 @@ export class AdsNewComponent implements OnInit {
       Object.keys(this.houseForm.controls).forEach((controlName) => {
         const control = this.houseForm.get(controlName);
         console.log(`Control: ${controlName}, Errors: ${JSON.stringify(control?.errors)}, Touched: ${control?.touched}`);
+        this.toastr.success('House created successfully', 'Success');
       });
       
       return;
@@ -177,6 +183,7 @@ export class AdsNewComponent implements OnInit {
     formData.append('town', townId);
     formData.append('district', districtId);
     formData.append('title', this.houseForm.value.title);
+    formData.append('price', this.houseForm.value.price);
     formData.append('description', this.houseForm.value.description);
     formData.append('age', this.houseForm.value.age);
     formData.append('floor', this.houseForm.value.floor);
@@ -212,6 +219,7 @@ export class AdsNewComponent implements OnInit {
     formData.append('van', this.houseForm.value.busStop);
     formData.append('gym', this.houseForm.value.gym);
     formData.append('pharmacy', this.houseForm.value.pharmacy);
+    formData.append('hospital', this.houseForm.value.hospital);
     formData.append('shoppingCenter', this.houseForm.value.shoppingCenter);
 
     // uploaded photo to the formData
@@ -234,28 +242,35 @@ export class AdsNewComponent implements OnInit {
             formData.append('appUserId', currentUser.id.toString());
     
             // HTTP request
-            if (file) {
-              this.adsService.createHouseAd(formData, currentUser.id, categoryId, townId, districtId, file)
-                .subscribe({
-                  next: (response) => {
-                    console.log('Request succeeded:', response);
-                  },
-                  error: (error) => {
-                    console.log('Request failed:', error);
-                  },
-                });
-            }
-          } else {
-            console.log('User ID is undefined');
+          
+          // HTTP request
+          if (file) {
+            this.adsService.createHouseAd(formData, currentUser.id, categoryId, townId, districtId, file)
+              .subscribe({
+                next: (response) => {
+                  console.log('Request succeeded:', response);
+                  console.log('Response id:', response.id);
+                  this.toastr.success('House ad created successfully', 'Success');
+                  // Redirect to the created house ad page
+                  this.router.navigate(['ads', response.id.toString()]);
+
+                },
+                error: (error) => {
+                  console.log('Request failed:', error);
+                },
+              });
           }
         } else {
-          console.log('Current user is undefined');
+          console.log('User ID is undefined');
         }
-      },
-      error: (error) => {
-        console.log('Error retrieving current user:', error);
-      },
-    });
-  }
+      } else {
+        console.log('Current user is undefined');
+      }
+    },
+    error: (error) => {
+      console.log('Error retrieving current user:', error);
+    },
+  });
+}
 
 }

@@ -1,0 +1,25 @@
+.table {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .table h4 {
+    flex-grow: 1;
+    text-align: right;
+    margin: 0;
+  }
+  
+  .table .flex-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .table .location-details {
+    margin-left: 10px;
+  }
+  
+  .table .town, .table .district {
+    font-weight: bold;
+  }
+  
