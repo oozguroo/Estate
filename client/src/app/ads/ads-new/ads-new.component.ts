@@ -58,7 +58,6 @@ export class AdsNewComponent implements OnInit {
     this.getCategories();
     this.getTowns();
     this.getDistricts();
-
   }
   initializeForm(): void {
     this.houseForm = this.formBuilder.group({
@@ -240,8 +239,6 @@ export class AdsNewComponent implements OnInit {
           // the currentUser object
           if (currentUser.id) {
             formData.append('appUserId', currentUser.id.toString());
-    
-            // HTTP request
           
           // HTTP request
           if (file) {

@@ -15,13 +15,16 @@ namespace API.Helpers
              .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
              .ReverseMap();
             CreateMap<HouseDto, MemberDto>();
-    
+
             CreateMap<AppUser, MemberDto>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.Houses, opt => opt.MapFrom(src => src.Houses))
-               /*  .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => new PhotoDto { Id = p.Id, Url = p.Url, IsMain = p.IsMain }).ToList())) */
+                /*  .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => new PhotoDto { Id = p.Id, Url = p.Url, IsMain = p.IsMain }).ToList())) */
                 .ReverseMap();
 
+            CreateMap<UpdateHouseDto, House>()
+         .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+         .ReverseMap();
 
             // Category
             CreateMap<Town, TownDto>();

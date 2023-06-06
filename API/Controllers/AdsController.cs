@@ -1,3 +1,5 @@
+using System.Net;
+using System.Security.Claims;
 using API.DTOs;
 using API.Extensions;
 using API.Interfaces;
@@ -22,6 +24,45 @@ namespace API.Controllers
             _mapper = mapper;
             _adRepository = adRepository;
         }
+
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult<UpdateHouseDto>> UpdateHouse(int id, [FromForm] UpdateHouseDto updateHouseDto)
+        {
+            if (id != updateHouseDto.Id)
+            {
+                // Handle ID mismatch case
+                return BadRequest("Invalid ID");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Call the repository method to update the house
+            var updatedHouseDto = await _adRepository.UpdateHouseAsync(updateHouseDto);
+            if (updatedHouseDto == null)
+            {
+                // Handle house not found case
+                return NotFound();
+            }
+
+            return updatedHouseDto;
+        }
+
+        [Authorize]
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteHouseAd(int id)
+        {
+            var username = HttpContext.User.GetUsername();
+
+            var result = await _adRepository.DeleteHouseAdAsync(id, username);
+            if (result == HttpStatusCode.Unauthorized)
+                return Unauthorized();
+
+            return Ok("House ad deleted successfully");
+        }
+
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HouseDto>>> GetHouses()
@@ -59,7 +100,7 @@ namespace API.Controllers
         }
 
 
-      
+
         [HttpPost("add")]
         public async Task<ActionResult<NewHouseDto>> CreateHouseAsync([FromForm] IFormFile file, [FromForm] NewHouseDto newHouseDto)
         {
@@ -89,10 +130,11 @@ namespace API.Controllers
 
             // Create the house using the repository method
             var createdHouseDto = await _adRepository.CreateHouseAsync(newHouseDto);
-            
+
 
             return createdHouseDto;
         }
+
 
 
 

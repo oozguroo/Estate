@@ -21,12 +21,29 @@ export class MemberLoginComponent implements OnInit {
 
   login() {
     this.accountService.login(this.model).subscribe({
-      next: _ => {
-        this.router.navigateByUrl('/ads')
+      next: response => {
+        const user = response; // Access the response object
+  
+        console.log(user.token); // Output: the token
+        console.log(user.username); // Output: the username
+        console.log(user.id); // Output: the ID
+  
+        // Store the token in local storage
+        localStorage.setItem('token', user.token);
+  
+        // Call the setCurrentUser method
+        this.accountService.setCurrentUser(user);
+  
+        // Redirect the user to the ads page
+        this.router.navigateByUrl('/ads');
       },
-      error: error => this.toastr.error(error.error)
-      
-    })
+      error: error => {
+        this.toastr.error(error.error);
+        console.log(error);
+      }
+    });
   }
+  
+  
 
 }

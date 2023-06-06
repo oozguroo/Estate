@@ -17,34 +17,33 @@ export class AccountService {
   constructor(private http: HttpClient) {}
 
   setCurrentUser(user: User) {
-    const { id, username } = user;
-    const currentUser: User = {
-      id,
-      username,
-      token: '', // Add the token property here
-    };
-    this.currentUserSource.next(currentUser);
+    this.currentUserSource.next(user);
   }
   
+  getToken(): string {
+    const token = localStorage.getItem('token');
+    return token ? token : '';
+  }
   
-
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
-        const { id, username } = response;
+        const { id, username, token } = response;
         if (id && username) {
           const currentUser: User = {
             id,
             username,
-            token: '', // Add the token property here
+            token,
           };
-          localStorage.setItem('user', JSON.stringify(response));
+          localStorage.setItem('user', JSON.stringify(currentUser));
           this.setCurrentUser(currentUser);
         }
+        return response;
       })
     );
   }
+  
   
   register(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(

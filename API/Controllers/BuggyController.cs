@@ -46,7 +46,7 @@ namespace API.Controllers
         [HttpGet("bad-request")]
         public ActionResult<string> GetBadRequest()
         {
-            return BadRequest("Aradığınız ilan yayından kaldırılmış veya silnmiş olabilir");
+            return BadRequest("The ad you are looking for may have been removed or deleted");
         }
     }
 }

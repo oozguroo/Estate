@@ -1,20 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { take } from 'rxjs';
 import { House } from 'src/app/_models/house';
 import { Member } from 'src/app/_models/member';
-import { Photo } from 'src/app/_models/photo';
+import { User } from 'src/app/_models/user';
+import { AccountService } from 'src/app/_services/account.service';
+import { AdsService } from 'src/app/_services/ads.service';
 import { MembersService } from 'src/app/_services/members.service';
 
 @Component({
   selector: 'app-member-detail',
   templateUrl: './member-detail.component.html',
-  styleUrls: ['./member-detail.component.css']
+  styleUrls: ['./member-detail.component.css'],
 })
 export class MemberDetailComponent implements OnInit {
+  @Input() user: User | undefined;
   member: Member | undefined;
-  houses: { houseId: number, photo: string, title: string, price: number }[] = [];
+  houses: { houseId: number; photo: string; title: string; price: number }[] =
+    [];
 
-  constructor(private memberService: MembersService, private route: ActivatedRoute, private router:Router) { }
+  constructor(
+    private memberService: MembersService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private adsService: AdsService,
+    private accountService: AccountService,
+    private toastr: ToastrService
+  ) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: (user) => {
+        if (user) this.user = user;
+      },
+    });
+  }
 
   ngOnInit(): void {
     this.loadMember();
@@ -27,18 +46,46 @@ export class MemberDetailComponent implements OnInit {
       next: (member) => {
         this.member = member;
         this.houses = this.extractHouseData(member.houses);
-      }
+      },
     });
   }
 
-  extractHouseData(houses: House[]): { houseId: number, photo: string, title: string, price: number }[] {
+  deleteAd(houseId: number) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: (user) => {
+        if (user && user.token) {
+          const username = user.username; // Get the username from the user object
+          this.adsService.deleteHouseAd(houseId, username).subscribe({
+            next: () => {
+              this.toastr.success('House ad deleted successfully', 'Success');
+              this.router.navigate(['members', username]);
+              // Additional logic or page navigation
+            },
+            error: (error) => {
+              console.error('Failed to delete house ad:', error);
+              // Handle error and display appropriate message
+            },
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Failed to get current user:', error);
+        // Handle error and display appropriate message
+      },
+    });
+  }
+  
+
+  extractHouseData(
+    houses: House[]
+  ): { houseId: number; photo: string; title: string; price: number }[] {
     return houses.map((house) => {
       const mainPhoto = house.photos.find((photo) => photo.isMain);
       return {
         houseId: house.id,
         photo: mainPhoto?.url ?? '',
         title: house.title,
-        price: house.price
+        price: house.price,
       };
     });
   }

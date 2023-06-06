@@ -24,7 +24,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 .WithOrigins("https://localhost:4200"));
 
-// Configure the JsonSerializerOptions object to allow cycle
+
 
 app.UseAuthentication();
 app.UseAuthorization();

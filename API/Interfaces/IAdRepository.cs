@@ -1,3 +1,4 @@
+using System.Net;
 using API.DTOs;
 using API.Entities;
 using API.Entities.Homes;
@@ -8,11 +9,13 @@ namespace API.Interfaces
     {
         Task<IEnumerable<HouseDto>> GetHousesAsync();
         Task<HouseDto> GetHouseByIdAsync(int id);
-        Task<MemberDto> GetUserByIdAsync(int id);
         Task<bool> SaveAllAsync();
-        void Update(House house);
-        Task<AppUser> GetUserByUsernameAsync(string username);
+
+        Task<UpdateHouseDto> UpdateHouseAsync(UpdateHouseDto updateHouseDto);
         Task<NewHouseDto> CreateHouseAsync(NewHouseDto newHouseDto);
+         Task<HttpStatusCode> DeleteHouseAdAsync(int id, string token);
+
+        Task<AppUser> GetUserByUsernameAsync(string username);
 
         Task<IEnumerable<Category>> GetCategoriesAsync();
         Task<IEnumerable<Town>> GetTownsAsync();

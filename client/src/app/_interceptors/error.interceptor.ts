@@ -37,7 +37,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               }
               break;
               case 401:
-                this.toastr.error('Sayfayı görüntülemek için giriş yapmanız gerekmektedir.')
+                this.toastr.error('You must be logged in to view the page.')
                 break;
               case 404:
               this.router.navigateByUrl('/not-found');
@@ -49,7 +49,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 break;
                 
                 default:
-                  this.toastr.error('Hay aksi! Bir şeyler ters gitti.')
+                  this.toastr.error('Ad has been deleted or cannot be found.')
                   console.log(error);
                   break;
           }

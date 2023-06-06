@@ -12,7 +12,11 @@
               <h5 class="card-title">{{ house.title }}</h5>
               <p class="card-text">House details...</p>
               <p>{{ member.userName }}</p>
-              <!-- Add more house details here -->
+              <button type="button" (click)="deleteAd(house.id)" class="btn btn-danger">Delete</button>
+
+              <button type="button" [routerLink]="'/edit/' + house.id" class="btn btn-warning mt-2 mb-3 w-100">Edit</button>
+          
+
             </div>
           </div>
         </div>

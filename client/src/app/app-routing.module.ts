@@ -15,11 +15,13 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { AdsNewComponent } from './ads/ads-new/ads-new.component';
+import { AdsEditComponent } from './ads/ads-edit/ads-edit.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'ads', component: AdsListComponent },
   { path: 'ads/:id', component: AdsDetailComponent },
+ 
   { path: 'list', component: AdsListComponent },
   { path: 'login', component: MemberLoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -34,6 +36,7 @@ const routes: Routes = [
       { path: 'messages', component: MessagesComponent },
       { path: 'settings', component: MemberSettingsComponent },
       { path: 'edit', component: MemberEditComponent },
+      { path: 'edit/:id', component: AdsEditComponent },
     ],
   },
   {path: 'not-found', component: NotFoundComponent},

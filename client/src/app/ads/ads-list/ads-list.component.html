@@ -18,11 +18,6 @@
                 <a [routerLink]="['/ads', house.id]" class="card-link">
                   <h5 class="card-title">{{ house.title | slice:0:40 }}{{ house.title.length > 40 ? '...' : '' }}</h5>
                 </a>
-                
-                
-                
-                
-
                 <p class="card-text">{{ house.description | slice:0:70 }}{{ house.description.length > 70 ? '...' : '' }}</p>
 
                 <div class="location-row">
