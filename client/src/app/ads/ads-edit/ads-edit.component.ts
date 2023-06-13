@@ -53,72 +53,75 @@ export class AdsEditComponent implements OnInit {
       Object.keys(this.houseForm.controls).forEach((controlName) => {
         const control = this.houseForm.get(controlName);
         console.log(`Control: ${controlName}, Errors: ${JSON.stringify(control?.errors)}, Touched: ${control?.touched}`);
-        // Move this line outside the loop
-        // this.toastr.success('House updated successfully', 'Success');
       });
-    
+  
       return;
     }
-    
+  
     const houseId = this.house.id;
     const categoryId = this.houseForm.value.category;
     const townId = this.houseForm.value.town;
     const districtId = this.houseForm.value.district;
-    
+  
     const formData: FormData = new FormData();
-    formData.append('id', houseId.toString());
-    formData.append('category', categoryId);
-    formData.append('town', townId);
-    formData.append('district', districtId);
-    formData.append('title', this.houseForm.value.title);
-    formData.append('price', this.houseForm.value.price);
-    formData.append('description', this.houseForm.value.description);
-    formData.append('age', this.houseForm.value.age);
-    formData.append('floor', this.houseForm.value.floor);
-    formData.append('bathroom', this.houseForm.value.bathroom);
-    formData.append('balcony', this.houseForm.value.balcony);
-    formData.append('room', this.houseForm.value.room);
-    formData.append('heath', this.houseForm.value.heath);
-    formData.append('complexName', this.houseForm.value.complexName);
-    formData.append('deedType', this.houseForm.value.deedType);
-    formData.append('furnish', this.houseForm.value.furnish);
-    formData.append('dues', this.houseForm.value.dues);
-    formData.append('exchange', this.houseForm.value.exchange);
-    formData.append('credit', this.houseForm.value.credit);
-    formData.append('gross', this.houseForm.value.gross);
-    formData.append('square', this.houseForm.value.square);
-    formData.append('hasNorthFrontage', this.houseForm.value.hasNorthFrontage);
-    formData.append('hasSouthFrontage', this.houseForm.value.hasSouthFrontage);
-    formData.append('hasWestFrontage', this.houseForm.value.hasWestFrontage);
-    formData.append('hasEastFrontage', this.houseForm.value.hasEastFrontage);
-    formData.append('nature', this.houseForm.value.nature);
-    formData.append('sea', this.houseForm.value.sea);
-    formData.append('lake', this.houseForm.value.lake);
-    formData.append('hasWifi', this.houseForm.value.hasWifi);
-    formData.append('hasSteelDoors', this.houseForm.value.hasSteelDoors);
-    formData.append('hasElevator', this.houseForm.value.hasElevator);
-    formData.append('hasChimney', this.houseForm.value.hasChimney);
-    formData.append('swimmingPool', this.houseForm.value.swimmingPool);
-    formData.append('generator', this.houseForm.value.generator);
-    formData.append('parking', this.houseForm.value.parking);
-    formData.append('satellite', this.houseForm.value.satellite);
-    formData.append('tramvay', this.houseForm.value.tramvay);
-    formData.append('metro', this.houseForm.value.metro);
-    formData.append('van', this.houseForm.value.busStop);
-    formData.append('gym', this.houseForm.value.gym);
-    formData.append('pharmacy', this.houseForm.value.pharmacy);
-    formData.append('hospital', this.houseForm.value.hospital);
-    formData.append('shoppingCenter', this.houseForm.value.shoppingCenter);
-    
+             formData.append('id', houseId.toString());
+              formData.append('category', categoryId);
+              formData.append('town', townId);
+              formData.append('district', districtId);
+              formData.append('title', this.houseForm.value.title);
+              formData.append('price', this.houseForm.value.price);
+              formData.append('description', this.houseForm.value.description);
+              formData.append('age', this.houseForm.value.age);
+              formData.append('floor', this.houseForm.value.floor);
+              formData.append('bathroom', this.houseForm.value.bathroom);
+              formData.append('balcony', this.houseForm.value.balcony);
+              formData.append('room', this.houseForm.value.room);
+              formData.append('heath', this.houseForm.value.heath);
+              formData.append('complexName', this.houseForm.value.complexName);
+              formData.append('deed', this.houseForm.value.deed);
+              formData.append('furnish', this.houseForm.value.furnish);
+              formData.append('dues', this.houseForm.value.dues);
+              formData.append('exchange', this.houseForm.value.exchange);
+              formData.append('credit', this.houseForm.value.credit);
+              formData.append('gross', this.houseForm.value.gross);
+              formData.append('square', this.houseForm.value.square);
+              formData.append('hasNorthFrontage', this.houseForm.value.hasNorthFrontage);
+              formData.append('hasSouthFrontage', this.houseForm.value.hasSouthFrontage);
+              formData.append('hasWestFrontage', this.houseForm.value.hasWestFrontage);
+              formData.append('hasEastFrontage', this.houseForm.value.hasEastFrontage);
+              formData.append('nature', this.houseForm.value.nature);
+              formData.append('sea', this.houseForm.value.sea);
+              formData.append('lake', this.houseForm.value.lake);
+              formData.append('hasWifi', this.houseForm.value.hasWifi);
+              formData.append('hasSteelDoors', this.houseForm.value.hasSteelDoors);
+              formData.append('hasElevator', this.houseForm.value.hasElevator);
+              formData.append('hasChimney', this.houseForm.value.hasChimney);
+              formData.append('swimmingPool', this.houseForm.value.swimmingPool);
+              formData.append('generator', this.houseForm.value.generator);
+              formData.append('parking', this.houseForm.value.parking);
+              formData.append('satellite', this.houseForm.value.satellite);
+              formData.append('tramvay', this.houseForm.value.tramvay);
+              formData.append('metro', this.houseForm.value.metro);
+              formData.append('busStop', this.houseForm.value.busStop);
+              formData.append('van', this.houseForm.value.van);
+              formData.append('gym', this.houseForm.value.gym);
+              formData.append('pharmacy', this.houseForm.value.pharmacy);
+              formData.append('hospital', this.houseForm.value.hospital);
+              formData.append('shoppingCenter', this.houseForm.value.shoppingCenter);
+  
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
-        if (user) {
-          const currentUser = user;
-          if (currentUser.id) {
-            formData.append('appUserId', currentUser.id.toString());
+        if (user && user.token) {
+          const username = user.username; // Get the username from the user object
+          const appUserId = user.id; // Get the user ID from the user object
+          if (this.house.userName !== username) {
+            this.toastr.error('Cannot edit someone elses ad.', 'Error');
+            console.log('Cannot edit ads of other users');
+            return;
           }
-    
-          this.adsService.updateHouse(formData, currentUser.id, categoryId, townId, districtId, houseId).subscribe({
+          formData.append('appUserId', appUserId.toString());
+  
+          this.adsService.updateHouse(formData, appUserId, categoryId, townId, districtId, houseId, username).subscribe({
             next: (response) => {
               console.log('Request succeeded:', response);
               console.log('Response id:', response.id);
@@ -130,7 +133,7 @@ export class AdsEditComponent implements OnInit {
             },
           });
         } else {
-          console.log('User ID is undefined');
+          console.log('User token or ID is undefined');
         }
       },
       error: (error) => {
@@ -138,7 +141,9 @@ export class AdsEditComponent implements OnInit {
       }
     });
   }
-    
+  
+  
+   
   
 
   loadHouse() {
@@ -167,7 +172,7 @@ export class AdsEditComponent implements OnInit {
           room: house.room,
           heath: house.heath,
           complexName: house.complexName,
-          deedType: house.deedType,
+          deed: house.deed,
           furnish: house.furnish,
           dues: house.dues,
           exchange: house.exchange,
@@ -257,7 +262,7 @@ export class AdsEditComponent implements OnInit {
       gross: [''],
       square: [''],
       age: [''],
-      deedType: [''],
+      deed: [''],
       dues: [''],
       floor: [''],
       bathroom: [''],

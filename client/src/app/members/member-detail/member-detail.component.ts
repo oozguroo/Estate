@@ -17,6 +17,7 @@ import { MembersService } from 'src/app/_services/members.service';
 export class MemberDetailComponent implements OnInit {
   @Input() user: User | undefined;
   member: Member | undefined;
+  currentUser: User | null | undefined;
   houses: { houseId: number; photo: string; title: string; price: number }[] =
     [];
 
@@ -35,10 +36,13 @@ export class MemberDetailComponent implements OnInit {
     });
   }
 
+
   ngOnInit(): void {
     this.loadMember();
+
   }
 
+  
   loadMember() {
     const username = this.route.snapshot.paramMap.get('username');
     if (!username) return;

@@ -1,31 +1,29 @@
 
 <div class="row">
   <div class="col-12 col-md-8 order-md-1 order-2">
-    <div *ngIf="member">
-      <div class="card house-card" *ngFor="let house of member.houses" (click)="redirectToAdDetail(house.id)">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img class="card-img-top" [src]="getMainPhotoUrl(house)" alt="House photo">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{ house.title }}</h5>
-              <p class="card-text">House details...</p>
-              <p>{{ member.userName }}</p>
-              <button type="button" (click)="deleteAd(house.id)" class="btn btn-danger">Delete</button>
-
-              <button type="button" [routerLink]="'/edit/' + house.id" class="btn btn-warning mt-2 mb-3 w-100">Edit</button>
-          
-
+        <div *ngIf="member">
+          <div class="card house-card" *ngFor="let house of member.houses" (click)="redirectToAdDetail(house.id)">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img class="card-img-top" [src]="getMainPhotoUrl(house)" alt="House photo">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ house.title }}</h5>
+                  <p>{{ member.userName }}</p>
+                  <div class="card-buttons">
+                    <button type="button" [routerLink]="'/edit/' + house.id" class="btn btn-success">Edit</button>
+                    <button type="button" (click)="deleteAd(house.id)" class="btn btn-danger">Delete</button>
+                  </div>
+                </div>
+              </div> 
             </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    
-  </div>
+
   
+
   <div class="col-xs-6 col-md-4 order-md-2 order-1">
     <!-- User -->
     <div class="card user-card mt-4"> <!-- Add user-card class -->
@@ -33,13 +31,13 @@
         <table>
           <tr>
             <td>
-              <strong><i class="fa fa-user-circle-o mt-2 ml-2" aria-hidden="true"></i> İlan Sahibi:</strong>
+              <strong><i class="fa fa-user-circle-o mt-2 ml-2" aria-hidden="true"></i> Ad Owner:</strong>
             </td>
             <td>{{ member.userName | uppercase }}</td>
           </tr>
           <tr>
             <td>
-              <strong><i class="fa fa-phone mt-2" aria-hidden="true"></i> Telefon:</strong>
+              <strong><i class="fa fa-phone mt-2" aria-hidden="true"></i> Phone:</strong>
             </td>
             <td>**</td>
           </tr>

@@ -17,6 +17,9 @@ namespace API.Data
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Town> Towns { get; set; }
         public DbSet<District> Districts { get; set; }
+        public DbSet<HouseLike> HouseLikes { get; set; }
+
+
 
 
 
@@ -55,8 +58,20 @@ namespace API.Data
 
 });
 
+            modelBuilder.Entity<HouseLike>()
+                .HasKey(hl => new { hl.AppUserId, hl.HouseId });
 
+            modelBuilder.Entity<HouseLike>()
+                .HasOne(hl => hl.AppUser)
+                .WithMany(au => au.LikedHouses)
+                .HasForeignKey(hl => hl.AppUserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<HouseLike>()
+                .HasOne(hl => hl.House)
+                .WithMany(h => h.LikedByUsers)
+                .HasForeignKey(hl => hl.HouseId)
+                .OnDelete(DeleteBehavior.NoAction);
 
 
             modelBuilder.Entity<House>()

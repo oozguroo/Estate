@@ -15,15 +15,15 @@ namespace API.Entities.Homes
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; } 
+        public decimal Price { get; set; }
         public short Age { get; set; }
         public string Floor { get; set; }
         public string Bathroom { get; set; }
         public string Balcony { get; set; }
-        public string Room { get; set; } 
+        public string Room { get; set; }
         public string Heath { get; set; }
         public string ComplexName { get; set; }
-        public string DeedType { get; set; } //forget too add this
+        public string Deed { get; set; } //forget too add this
         public bool? Furnish { get; set; }
         public decimal? Dues { get; set; } //
         public bool? Exchange { get; set; }
@@ -35,6 +35,8 @@ namespace API.Entities.Homes
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;
         public DateTime ExpirationDate => CreationDate.AddDays(30);
         public List<Photo> Photos { get; set; } = new List<Photo>();
+        public ICollection<HouseLike> LikedByUsers { get; set; } // Collection of users who liked this house ad
+
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public int TownId { get; set; }

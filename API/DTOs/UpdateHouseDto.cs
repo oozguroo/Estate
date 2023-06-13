@@ -13,7 +13,7 @@ namespace API.DTOs
         public string UserName { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public short Age { get; set; }
         public string Floor { get; set; }
         public string Bathroom { get; set; }
@@ -21,7 +21,7 @@ namespace API.DTOs
         public string Room { get; set; }
         public string Heath { get; set; } // enum for strings
         public string ComplexName { get; set; }
-        public string DeedType { get; set; } //enum
+        public string Deed { get; set; } //enum
         public bool? Furnish { get; set; }
         public decimal? Dues { get; set; }
         public bool? Exchange { get; set; }

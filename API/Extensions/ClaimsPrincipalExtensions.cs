@@ -10,9 +10,15 @@ namespace API.Extensions
             return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
 
+        public static string GetUserId(this ClaimsPrincipal user)
+        {
+            return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
         public static string GetAccessToken(this ClaimsPrincipal user)
         {
             return user.FindFirst("access_token")?.Value;
         }
+
     }
 }
+

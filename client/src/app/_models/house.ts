@@ -16,7 +16,7 @@ export interface House {
   room: string;
   heath: string;
   complexName: string;
-  deedType: string;
+  deed: string;
   furnish: boolean;
   dues: number;
   exchange?: boolean;

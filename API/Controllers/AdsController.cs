@@ -1,10 +1,11 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
-using System.Security.Claims;
+using API.Data;
 using API.DTOs;
 using API.Extensions;
 using API.Interfaces;
 using AutoMapper;
-using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,20 +18,26 @@ namespace API.Controllers
         private readonly IAdRepository _adRepository;
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
+        private readonly IUserRepository _userRepository;
+        private readonly ITokenService _tokenService;
 
-        public AdsController(IAdRepository adRepository, IMapper mapper, IPhotoService photoService)
+        public AdsController(IAdRepository adRepository, IMapper mapper, IPhotoService photoService, IUserRepository userRepository, ITokenService tokenService)
         {
+            _tokenService = tokenService;
+
+            _userRepository = userRepository;
             _photoService = photoService;
             _mapper = mapper;
             _adRepository = adRepository;
         }
 
+
+        [Authorize]
         [HttpPut("update/{id}")]
         public async Task<ActionResult<UpdateHouseDto>> UpdateHouse(int id, [FromForm] UpdateHouseDto updateHouseDto)
         {
             if (id != updateHouseDto.Id)
             {
-                // Handle ID mismatch case
                 return BadRequest("Invalid ID");
             }
 
@@ -39,11 +46,10 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Call the repository method to update the house
-            var updatedHouseDto = await _adRepository.UpdateHouseAsync(updateHouseDto);
+            var username = User.GetUsername();
+            var updatedHouseDto = await _adRepository.UpdateHouseAsync(updateHouseDto, username);
             if (updatedHouseDto == null)
             {
-                // Handle house not found case
                 return NotFound();
             }
 
@@ -100,42 +106,54 @@ namespace API.Controllers
         }
 
 
-
+        [Authorize]
         [HttpPost("add")]
-        public async Task<ActionResult<NewHouseDto>> CreateHouseAsync([FromForm] IFormFile file, [FromForm] NewHouseDto newHouseDto)
+        public async Task<ActionResult<NewHouseDto>> CreateHouseAsync([FromHeader(Name = "Authorization")] string authorizationHeader, [FromForm] IFormFile file, [FromForm] NewHouseDto newHouseDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            // Get the username from the token
+            var usernameFromToken = HttpContext.User.GetUsername();
+
+            // Get JWT token from Authorization header
+            var jwtToken = authorizationHeader.Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
+
+            // Get username from JWT token
+            if (string.IsNullOrEmpty(usernameFromToken))
+            {
+                return Unauthorized("Unauthorized operation");
+            }
+
+            // Compare the usernames
+            if (newHouseDto.UserName != usernameFromToken)
+            {
+                return Unauthorized("Unauthorized operation");
+            }
+
+            // Rest of the code for creating the house ad
+
+
+
             var uploadedFile = Request.Form.Files.FirstOrDefault();
             if (file == null || file.Length == 0)
             {
                 return BadRequest("Photo is required.");
             }
-
-            // Upload the photo to Cloudinary
             var uploadResult = await _photoService.AddPhotoAsync(file);
-
-            // Create a new PhotoDto object and set its properties
             var photoDto = new PhotoDto
             {
                 Url = uploadResult.SecureUrl.AbsoluteUri,
-                IsMain = true, // Set this property based on your logic
+                IsMain = true,
                 PublicId = uploadResult.PublicId
             };
-
-            // Add the photo to the house's Photos list
             newHouseDto.Photos.Add(photoDto);
-
-            // Create the house using the repository method
-            var createdHouseDto = await _adRepository.CreateHouseAsync(newHouseDto);
-
-
+            var createdHouseDto = await _adRepository.CreateHouseAsync(newHouseDto, usernameFromToken);
             return createdHouseDto;
         }
-
-
 
 
     }

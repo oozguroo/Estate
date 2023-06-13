@@ -12,18 +12,20 @@
           <div class="col-md-4" *ngFor="let house of houses">
             <div class="card mb-4 box-shadow">
               <a [routerLink]="['/ads', house.id]">
-                <img class="card-img-top" src="{{ house.photoUrl }}" alt="{{ house.title }}">
-              </a>
+                <img class="card-img-top" [src]="house.photoUrl" alt="">
+              </a>  
               <div class="card-body">
                 <a [routerLink]="['/ads', house.id]" class="card-link">
-                  <h5 class="card-title">{{ house.title | slice:0:40 }}{{ house.title.length > 40 ? '...' : '' }}</h5>
+                  <h5 class="card-title">{{ house.title | slice:0:30 }}{{ house.title.length > 30 ? '...' : '' }}</h5>
                 </a>
-                <p class="card-text">{{ house.description | slice:0:70 }}{{ house.description.length > 70 ? '...' : '' }}</p>
+                <p class="card-text">{{ house.description | slice:0:30 }}{{ house.description.length > 30 ? '...' : ''
+                  }}</p>
 
                 <div class="location-row">
                   <div class="flex-item">
                     <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
-                    <span class="username">{{ house.userName.charAt(0).toUpperCase() + house.userName.slice(1).toLowerCase() }}</span>
+                    <span class="username">{{ house.userName.charAt(0).toUpperCase() +
+                      house.userName.slice(1).toLowerCase() }}</span>
 
                   </div>
                   <div class="flex-item location">
@@ -56,8 +58,11 @@
 
 
                 <div class="btn-group d-flex mt-2">
-                  <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" style="float:right;"> <i
-                      class="fa fa-heart" aria-hidden="true" style="color: red"></i>&nbsp;Favourite</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" style="float:right;"
+                    (click)="likeAd(house.id)">
+                    <i class="fa fa-heart" aria-hidden="true" style="color: red"></i>&nbsp;Favourite
+                  </button>
+
                   <button type="button" class="btn btn-sm btn-outline-secondary flex-fill"
                     routerLink="/ads/{{house.id}}">View</button>
 
@@ -67,10 +72,6 @@
           </div>
         </div>
       </div>
-
-
-
-
     </div>
   </main>
 </body>

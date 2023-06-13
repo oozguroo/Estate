@@ -46,39 +46,39 @@
       <table class="table table-striped table-sm">
       <tbody>
         <tr>
-          <th>İlan No</th>
+          <th>Ad Number</th>
           <td>{{house.id}}</td>
         </tr>
         <tr>
-          <th>İlan Tarihi</th>
+          <th>Published</th>
           <td>{{ house.creationDate | date:'dd MMMM y' }}</td>
         </tr>
         <tr>
-          <th>Oda Sayısı</th>
+          <th>Floor</th>
           <td>{{house.floor}}</td>
         </tr>
         <tr>
-          <th>m² (Brüt)</th>
+          <th>m² (Gross)</th>
           <td>{{house.gross}}</td>
         </tr>
         <tr>
-          <th>m² (Net)</th>
+          <th>m² (Square)</th>
           <td>{{house.square}}</td>
         </tr>
         <tr>
-          <th>Oda Sayısı</th>
+          <th>Room</th>
           <td>{{house.room}}</td>
         </tr>
         <tr>
-          <th>Yaşı</th>
+          <th>Age</th>
           <td>{{house.age}}</td>
         </tr>
         <tr>
-          <th>Isıtma</th>
+          <th>Heath</th>
           <td>{{house.heath}}</td>
         </tr>
         <tr>
-          <th>Banyo Sayısı</th>
+          <th>Balcony</th>
           <td>{{house.bathroom}}</td>
         </tr>
         <tr>
@@ -87,25 +87,25 @@
         </tr>
 
         <tr>
-          <th>Banyo Sayısı</th>
+          <th>Bathroom</th>
           <td>{{house.bathroom}}</td>
         </tr>
         <tr>
-          <th>Site Adı</th>
+          <th>Complex Name</th>
           <td>{{house.complexName}}</td>
         </tr>
         <tr>
-          <th>Aydat</th>
+          <th>Due</th>
           <td>{{house.dues}}</td>
         </tr>
 
         <tr>
-          <th>Eşyalı</th>
+          <th>Furniture</th>
           <td>{{ house.furnish ? 'Evet' : 'Hayır' }}</td>
         </tr>
 
         <tr>
-          <th>Krediye Uygun</th>
+          <th>Credit</th>
           <td>{{ house.credit ? 'Evet' : 'Hayır' }}</td>
         </tr>
         <tr>
@@ -123,7 +123,7 @@
     <div class="card-body">
       <tr>
         <strong><i class="fa fa-user-circle-o" aria-hidden="true"></i>
-          İlan Sahibi : </strong>
+          Ad Owner : </strong>
           <td>{{ house.userName | uppercase }}</td>
       </tr>
     </div>
@@ -141,7 +141,7 @@
       </div>
     </div>
   <!-- Ev Özellikleri -->
-  <h6>Cephe</h6>
+  <h6>Frontage</h6>
         <div class="card">
           <div class="card-body">
             <div class="form-check form-check-inline">
@@ -154,7 +154,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Kuzey</span>
+              <span class="checkbox-label"> North</span>
             </div>
 
          
@@ -168,7 +168,7 @@
                     <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                   </ng-container>
                 </label>
-                <span class="checkbox-label"> Güney</span>
+                <span class="checkbox-label"> South</span>
               </div>
 
 
@@ -182,7 +182,7 @@
                     <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                   </ng-container>
                 </label>
-                <span class="checkbox-label"> Doğu</span>
+                <span class="checkbox-label"> East</span>
               </div>
 
               <div class="form-check form-check-inline">
@@ -195,12 +195,12 @@
                     <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                   </ng-container>
                 </label>
-                <span class="checkbox-label"> Batı</span>
+                <span class="checkbox-label"> West</span>
               </div>
           </div>
         </div>
     
-        <h6 class="mt-2">Manzara</h6>
+        <h6 class="mt-2">View</h6>
         <div class="card">
           <div class="card-body">
             <div class="form-check form-check-inline">
@@ -213,7 +213,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Deniz</span>
+              <span class="checkbox-label"> Sea</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -226,7 +226,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Doğa</span>
+              <span class="checkbox-label"> Nature</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -239,7 +239,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Göl</span>
+              <span class="checkbox-label"> Lake</span>
             </div>
 
 
@@ -272,7 +272,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Çelik Kapı</span>
+              <span class="checkbox-label">  Steel Doors</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -285,7 +285,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Asansör</span>
+              <span class="checkbox-label"> Elevator</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -298,13 +298,14 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Şömine</span>
+              <span class="checkbox-label"> Chimney</span>
             </div>
 
           </div>
         </div>
 
-        <h6 class="mt-2">Dış Özellikler</h6>
+
+        <h6 class="mt-2">External</h6>
         <div class="card">
           <div class="card-body">
             <div class="form-check form-check-inline">
@@ -317,7 +318,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Havuz</span>
+              <span class="checkbox-label"> Pool</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -330,7 +331,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Jeneratör</span>
+              <span class="checkbox-label"> Generator</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -356,70 +357,13 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Uydu</span>
-            </div>
-          </div>
-        </div>
-
-        <h6 class="mt-2">Dış Özellikler</h6>
-        <div class="card">
-          <div class="card-body">
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.swimmingPool" disabled>
-              <label class="checkmark" for="inlineCheckbox1">
-                <ng-container *ngIf="house.swimmingPool=== true">
-                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
-                </ng-container>
-                <ng-container *ngIf="house.swimmingPool=== false">
-                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
-                </ng-container>
-              </label>
-              <span class="checkbox-label"> Havuz</span>
-            </div>
-
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.generator" disabled>
-              <label class="checkmark" for="inlineCheckbox1">
-                <ng-container *ngIf="house.generator === true">
-                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
-                </ng-container>
-                <ng-container *ngIf="house.generator === false">
-                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
-                </ng-container>
-              </label>
-              <span class="checkbox-label"> Jeneratör</span>
-            </div>
-
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.parking" disabled>
-              <label class="checkmark" for="inlineCheckbox1">
-                <ng-container *ngIf="house.parking === true">
-                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
-                </ng-container>
-                <ng-container *ngIf="house.parking === false">
-                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
-                </ng-container>
-              </label>
-              <span class="checkbox-label"> Park</span>
-            </div>
-
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="house.satellite" disabled>
-              <label class="checkmark" for="inlineCheckbox1">
-                <ng-container *ngIf="house.satellite === true">
-                  <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
-                </ng-container>
-                <ng-container *ngIf="house.satellite === false">
-                  <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
-                </ng-container>
-              </label>
-              <span class="checkbox-label"> Uydu</span>
+              <span class="checkbox-label"> Satellite</span>
             </div>
           </div>
         </div>
 
 
-        <h6 class="mt-2">Ulaşım</h6>
+        <h6 class="mt-2">Transport</h6>
         <div class="card">
           <div class="card-body">
             <div class="form-check form-check-inline">
@@ -445,7 +389,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Tramvay</span>
+              <span class="checkbox-label"> Tram</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -458,7 +402,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Dolmuş</span>
+              <span class="checkbox-label"> Van</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -471,12 +415,12 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Otobüs</span>
+              <span class="checkbox-label"> Bus</span>
             </div>
           </div>
         </div>
 
-        <h6 class="mt-2">Yakınındakiler</h6>
+        <h6 class="mt-2">Nearby</h6>
         <div class="card">
           <div class="card-body">
             <div class="form-check form-check-inline">
@@ -489,7 +433,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Hastane</span>
+              <span class="checkbox-label"> Hospital</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -502,7 +446,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label">Okul</span>
+              <span class="checkbox-label">School</span>
             </div>
 
             <div class="form-check form-check-inline">
@@ -528,7 +472,7 @@
                   <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
                 </ng-container>
               </label>
-              <span class="checkbox-label"> Avm</span>
+              <span class="checkbox-label"> Mall</span>
             </div>
           </div>
         </div>

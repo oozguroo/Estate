@@ -35,6 +35,13 @@
         <li role="menuitem" [routerLink]="['/members', user.username]"><a class="dropdown-item" ><i class="fa fa-pencil" aria-hidden="true"></i> Bilgilerim</a></li>
           <li role="menuitem" routerLink="/new"><a class="dropdown-item" ><i class="fa fa-pencil" aria-hidden="true"></i>
             Yeni İlan</a></li>
+            <li role="menuitem" [routerLink]="['/liked', user.id]">
+              <a class="dropdown-item">
+                <i class="fa fa-heart" aria-hidden="true"></i> Liked Ads
+              </a>
+            </li>
+            
+            
         <li role="menuitem" routerLink="/settings"><a class="dropdown-item"><i class="fa fa-key" aria-hidden="true"></i>
             Güvenlik</a></li>
             <li role="menuitem" routerLink="/help"><a class="dropdown-item"><i class="fa fa-question-circle" aria-hidden="true"></i>

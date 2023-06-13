@@ -11,9 +11,9 @@ namespace API.Interfaces
         Task<HouseDto> GetHouseByIdAsync(int id);
         Task<bool> SaveAllAsync();
 
-        Task<UpdateHouseDto> UpdateHouseAsync(UpdateHouseDto updateHouseDto);
-        Task<NewHouseDto> CreateHouseAsync(NewHouseDto newHouseDto);
-         Task<HttpStatusCode> DeleteHouseAdAsync(int id, string token);
+        Task<UpdateHouseDto> UpdateHouseAsync(UpdateHouseDto updateHouseDto, string username);
+        Task<NewHouseDto> CreateHouseAsync(NewHouseDto newHouseDto,string username);
+        Task<HttpStatusCode> DeleteHouseAdAsync(int id, string token);
 
         Task<AppUser> GetUserByUsernameAsync(string username);
 

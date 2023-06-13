@@ -27,6 +27,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { AdsNewComponent } from './ads/ads-new/ads-new.component';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { MemberLikesComponent } from './members/member-likes/member-likes.component';
 
 
 
@@ -52,7 +53,8 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
     ServerErrorComponent,
     TestErrorComponent,
     AdsNewComponent,
-    TextInputComponent
+    TextInputComponent,
+    MemberLikesComponent
    
 
   ],

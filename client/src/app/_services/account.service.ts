@@ -25,7 +25,11 @@ export class AccountService {
     return token ? token : '';
   }
   
-
+  getCurrentUserId(): number | null {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user).id : null;
+  }
+  
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
@@ -37,6 +41,7 @@ export class AccountService {
             token,
           };
           localStorage.setItem('user', JSON.stringify(currentUser));
+          localStorage.setItem('token', token); // Store the token in the local storage
           this.setCurrentUser(currentUser);
         }
         return response;

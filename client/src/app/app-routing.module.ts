@@ -16,6 +16,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { AdsNewComponent } from './ads/ads-new/ads-new.component';
 import { AdsEditComponent } from './ads/ads-edit/ads-edit.component';
+import { MemberLikesComponent } from './members/member-likes/member-likes.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'help', component: MemberHelpComponent },
   {path: 'members/:username', component: MemberDetailComponent},
+  
   { path: 'new', component: AdsNewComponent },
   {
     path: '',
@@ -37,6 +39,7 @@ const routes: Routes = [
       { path: 'settings', component: MemberSettingsComponent },
       { path: 'edit', component: MemberEditComponent },
       { path: 'edit/:id', component: AdsEditComponent },
+      { path: 'liked/:id', component: MemberLikesComponent },
     ],
   },
   {path: 'not-found', component: NotFoundComponent},

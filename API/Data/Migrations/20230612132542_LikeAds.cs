@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class EstateCatTownDis : Migration
+    public partial class LikeAds : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,7 +67,7 @@ namespace API.Data.Migrations
                     Room = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Heath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ComplexName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeedType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deed = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Furnish = table.Column<bool>(type: "bit", nullable: true),
                     Dues = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Exchange = table.Column<bool>(type: "bit", nullable: true),
@@ -133,6 +133,28 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HouseLikes",
+                columns: table => new
+                {
+                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    HouseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HouseLikes", x => new { x.AppUserId, x.HouseId });
+                    table.ForeignKey(
+                        name: "FK_HouseLikes_Houses_HouseId",
+                        column: x => x.HouseId,
+                        principalTable: "Houses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_HouseLikes_Users_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Photos",
                 columns: table => new
                 {
@@ -153,6 +175,11 @@ namespace API.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HouseLikes_HouseId",
+                table: "HouseLikes",
+                column: "HouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Houses_AppUserId",
@@ -183,6 +210,9 @@ namespace API.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "HouseLikes");
+
             migrationBuilder.DropTable(
                 name: "Photos");
 

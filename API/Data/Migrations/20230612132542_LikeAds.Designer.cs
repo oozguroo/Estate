@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230525182036_EstateCatTownDis")]
-    partial class EstateCatTownDis
+    [Migration("20230612132542_LikeAds")]
+    partial class LikeAds
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,7 +114,7 @@ namespace API.Data.Migrations
                     b.Property<bool?>("Credit")
                         .HasColumnType("bit");
 
-                    b.Property<string>("DeedType")
+                    b.Property<string>("Deed")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -238,6 +238,21 @@ namespace API.Data.Migrations
                     b.ToTable("Houses", (string)null);
                 });
 
+            modelBuilder.Entity("API.Entities.HouseLike", b =>
+                {
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppUserId", "HouseId");
+
+                    b.HasIndex("HouseId");
+
+                    b.ToTable("HouseLikes");
+                });
+
             modelBuilder.Entity("API.Entities.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -316,6 +331,25 @@ namespace API.Data.Migrations
                     b.Navigation("Town");
                 });
 
+            modelBuilder.Entity("API.Entities.HouseLike", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "AppUser")
+                        .WithMany("LikedHouses")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Homes.House", "House")
+                        .WithMany("LikedByUsers")
+                        .HasForeignKey("HouseId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("House");
+                });
+
             modelBuilder.Entity("API.Entities.Photo", b =>
                 {
                     b.HasOne("API.Entities.Homes.House", "House")
@@ -330,6 +364,8 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
                     b.Navigation("Houses");
+
+                    b.Navigation("LikedHouses");
                 });
 
             modelBuilder.Entity("API.Entities.Category", b =>
@@ -344,6 +380,8 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Homes.House", b =>
                 {
+                    b.Navigation("LikedByUsers");
+
                     b.Navigation("Photos");
                 });
 

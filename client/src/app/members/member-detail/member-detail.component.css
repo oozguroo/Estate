@@ -1,30 +1,53 @@
-.card-img-top {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  
-  .house-card {
-    height: 200px; /* Adjust the height as desired */
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    overflow: hidden; /* Hide any overflow from the card */
-    margin-bottom: 10px; /* Add margin-bottom for spacing */
-  }
-  
-  .house-card:hover {
-    background-color: #9adbf5;
-  }
-  .house-title {
-    cursor: pointer;
-    color: #333;
-    transition: color 0.3s;
-  }
-  
-  .house-title:hover {
-    color: blue;
-  }
-  .user-card {
-    height: 80px; /* Adjust this value as you like */
-  }
-  
+.house-card {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  margin-bottom: 10px; /* Add margin-bottom for spacing */
+}
+
+.house-card:hover {
+  background-color: #9adbf5;
+}
+
+.house-card .card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.house-card .card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.house-card .card-body h5 {
+  margin-bottom: 10px;
+}
+
+.house-card .card-body .card-text {
+  flex-grow: 1;
+}
+
+.house-card .card-body .card-buttons {
+  display: flex;
+  margin-top: auto; /* Add margin-top: auto; to move the buttons down */
+}
+
+.house-card .card-body .card-buttons button {
+  flex-grow: 1;
+  margin-right: 5px;
+}
+
+.house-title {
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.house-title:hover {
+  color: blue;
+}
+
+.user-card {
+  height: 80px; /* Adjust this value as you like */
+}

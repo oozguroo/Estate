@@ -71,7 +71,7 @@ export class AdsNewComponent implements OnInit {
       gross: [''],
       square: [''],
       age: [''],
-      deedType: [''],
+      deed: [''],
       dues: [''],
       floor: [''],
       bathroom: [''],
@@ -191,7 +191,7 @@ export class AdsNewComponent implements OnInit {
     formData.append('room', this.houseForm.value.room);
     formData.append('heath', this.houseForm.value.heath);
     formData.append('complexName', this.houseForm.value.complexName);
-    formData.append('deedType', this.houseForm.value.deedType);
+    formData.append('deed', this.houseForm.value.deed);
     formData.append('furnish', this.houseForm.value.furnish);
     formData.append('dues', this.houseForm.value.dues);
     formData.append('exchange', this.houseForm.value.exchange);
@@ -228,21 +228,16 @@ export class AdsNewComponent implements OnInit {
       formData.append('file', file, file.name);
     }
 
-    // if currentUser is defined
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
-        if (user) {
-          const currentUser = user;
-          console.log('Current user:', currentUser);
+        if (user && user.token) {
+          const appUserId = user.id; // Get the user ID from the user object
+          const username = user.username; // Get the username from the user object
+          formData.append('appUserId', appUserId.toString());
   
-    
-          // the currentUser object
-          if (currentUser.id) {
-            formData.append('appUserId', currentUser.id.toString());
-          
           // HTTP request
           if (file) {
-            this.adsService.createHouseAd(formData, currentUser.id, categoryId, townId, districtId, file)
+            this.adsService.createHouseAd(formData, appUserId, username, categoryId, townId, districtId, file)
               .subscribe({
                 next: (response) => {
                   console.log('Request succeeded:', response);
@@ -250,7 +245,6 @@ export class AdsNewComponent implements OnInit {
                   this.toastr.success('House ad created successfully', 'Success');
                   // Redirect to the created house ad page
                   this.router.navigate(['ads', response.id.toString()]);
-
                 },
                 error: (error) => {
                   console.log('Request failed:', error);
@@ -260,14 +254,11 @@ export class AdsNewComponent implements OnInit {
         } else {
           console.log('User ID is undefined');
         }
-      } else {
-        console.log('Current user is undefined');
-      }
-    },
-    error: (error) => {
-      console.log('Error retrieving current user:', error);
-    },
-  });
-}
+      },
+      error: (error) => {
+        console.log('Error retrieving current user:', error);
+      },
+    });
+  }
 
 }

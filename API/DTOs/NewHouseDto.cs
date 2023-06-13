@@ -13,7 +13,7 @@ namespace API.DTOs
         public string UserName { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public short Age { get; set; }
         public string Floor { get; set; }
         public string Bathroom { get; set; }
@@ -21,7 +21,7 @@ namespace API.DTOs
         public string Room { get; set; }
         public string Heath { get; set; } // enum for strings
         public string ComplexName { get; set; }
-        public string DeedType { get; set; } //enum
+        public string Deed { get; set; } //enum
         public bool? Furnish { get; set; }
         public decimal? Dues { get; set; }
         public bool? Exchange { get; set; }
@@ -31,6 +31,7 @@ namespace API.DTOs
         public bool IsActive { get; set; } = true;
         public DateTime ExpirationDate { get; set; }
         public List<PhotoDto> Photos { get; set; } = new List<PhotoDto>();
+       public ICollection<HouseLikeDto> LikedHouses { get; set; }
         public int CategoryId { get; set; } // Property for Category ID
         public int TownId { get; set; } // Property for Town ID
         public int DistrictId { get; set; } // Property for District ID

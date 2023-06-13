@@ -23,14 +23,47 @@ namespace API.Data
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IPhotoService _photoService;
+        private readonly IUserRepository _userRepository;
 
-        public AdRepository(DataContext context, IMapper mapper, IConfiguration config,IPhotoService photoService)
+        public AdRepository(DataContext context, IMapper mapper, IConfiguration config, IPhotoService photoService, IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _photoService = photoService;
             _mapper = mapper;
             _context = context;
             _config = config;
         }
+
+        public async Task<UpdateHouseDto> UpdateHouseAsync(UpdateHouseDto updateHouseDto, string username)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
+            if (user == null)
+            {
+                // User not found, handle accordingly
+                return null;
+            }
+
+            var house = await _context.Houses.FindAsync(updateHouseDto.Id);
+            if (house == null)
+            {
+                return null;
+            }
+
+            // Ensure that the user is the owner of the house
+            if (house.AppUserId != user.Id)
+            {
+                // User is not authorized to update this house, handle accordingly
+                return null;
+            }
+
+            // Update the house entity based on the updateHouseDto
+            _mapper.Map(updateHouseDto, house);
+
+            await _context.SaveChangesAsync();
+            updateHouseDto.Id = house.Id;
+            return updateHouseDto;
+        }
+
 
 
 
@@ -41,74 +74,43 @@ namespace API.Data
             .Where(x => x.Id == id)
      .ProjectTo<HouseDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
-
+ 
         }
 
-
-        // In your repository interface or class
-   public async Task<HttpStatusCode> DeleteHouseAdAsync(int id, string username)
-{
-    var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
-
-    if (user == null)
-    {
-        return HttpStatusCode.Unauthorized;
-    }
-
-    var house = await _context.Houses.Include(h => h.Photos).FirstOrDefaultAsync(h => h.Id == id);
-    if (house == null)
-    {
-        return HttpStatusCode.NotFound;
-    }
-
-    if (house.AppUserId != user.Id)
-    {
-        return HttpStatusCode.Unauthorized;
-    }
-
-    // Delete the associated photos from Cloudinary
-    foreach (var photo in house.Photos)
-    {
-        if (!string.IsNullOrEmpty(photo.PublicId))
+        public async Task<HttpStatusCode> DeleteHouseAdAsync(int id, string username)
         {
-            await _photoService.DeletePhotoAsync(photo.PublicId);
-        }
-    }
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
 
-    _context.Houses.Remove(house);
-    await _context.SaveChangesAsync();
-
-    return HttpStatusCode.OK;
-}
-
-
-
-
-
-
-        public async Task<UpdateHouseDto> UpdateHouseAsync(UpdateHouseDto updateHouseDto)
-        {
-            // Get the house from the database
-            var house = await _context.Houses.FindAsync(updateHouseDto.Id);
-            if (house == null)
+            if (user == null)
             {
-                // Handle house not found case
-                return null;
+                return HttpStatusCode.Unauthorized;
             }
 
-            // Map the properties from updateHouseDto to the house entity
-            _mapper.Map(updateHouseDto, house);
+            var house = await _context.Houses.Include(h => h.Photos).FirstOrDefaultAsync(h => h.Id == id);
+            if (house == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
 
-            // Save the changes to the database
+            if (house.AppUserId != user.Id)
+            {
+                return HttpStatusCode.Unauthorized;
+            }
+
+            // Delete the associated photos from Cloudinary
+            foreach (var photo in house.Photos)
+            {
+                if (!string.IsNullOrEmpty(photo.PublicId))
+                {
+                    await _photoService.DeletePhotoAsync(photo.PublicId);
+                }
+            }
+
+            _context.Houses.Remove(house);
             await _context.SaveChangesAsync();
-            updateHouseDto.Id = house.Id;
-            // Return the original updateHouseDto without modifying its ID
-            return updateHouseDto;
+
+            return HttpStatusCode.OK;
         }
-
-
-
-
 
         public async Task<IEnumerable<HouseDto>> GetHousesAsync()
         {
@@ -137,10 +139,18 @@ namespace API.Data
         }
 
 
-        public async Task<NewHouseDto> CreateHouseAsync(NewHouseDto newHouseDto)
+        public async Task<NewHouseDto> CreateHouseAsync(NewHouseDto newHouseDto, string username)
         {
-            // Create a new House entity from the NewHouseDto using AutoMapper
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
+
+            if (user == null)
+            {
+                throw new Exception("User not found"); // Handle the case where the user is not found
+            }
+
             var house = _mapper.Map<House>(newHouseDto);
+            house.AppUserId = user.Id;
+
             foreach (var photoDto in newHouseDto.Photos)
             {
                 var photo = new Photo
@@ -152,13 +162,14 @@ namespace API.Data
                 house.Photos.Add(photo);
             }
 
-            // Add the new House entity to the database
             _context.Houses.Add(house);
             await _context.SaveChangesAsync();
             newHouseDto.Id = house.Id;
 
             return newHouseDto;
         }
+
+
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
