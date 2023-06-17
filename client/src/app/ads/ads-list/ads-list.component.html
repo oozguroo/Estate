@@ -1,77 +1,137 @@
-<body>
-  <form class="d-flex flex-grow-1 mt-2" role="search">
-    <input class="form-control me-2" id="search" type="search" placeholder="**" aria-label="Search">
-    <button class="btn btn-outline-success mt-1" type="submit">Ara</button>
-  </form>
-  <main role="main">
-
-    <div class="container">
-
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4" *ngFor="let house of houses">
-            <div class="card mb-4 box-shadow">
-              <a [routerLink]="['/ads', house.id]">
-                <img class="card-img-top" [src]="house.photoUrl" alt="">
-              </a>  
-              <div class="card-body">
-                <a [routerLink]="['/ads', house.id]" class="card-link">
-                  <h5 class="card-title">{{ house.title | slice:0:30 }}{{ house.title.length > 30 ? '...' : '' }}</h5>
-                </a>
-                <p class="card-text">{{ house.description | slice:0:30 }}{{ house.description.length > 30 ? '...' : ''
-                  }}</p>
-
-                <div class="location-row">
-                  <div class="flex-item">
-                    <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
-                    <span class="username">{{ house.userName.charAt(0).toUpperCase() +
-                      house.userName.slice(1).toLowerCase() }}</span>
-
-                  </div>
-                  <div class="flex-item location">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;
-                    <div class="location-details">
-                      <span class="town">{{house.townName}}</span>
-                      <span>/</span>
-                      <span class="district">{{house.districtName}}</span>
-                    </div>
-                  </div>
-                  <div class="flex-item">
-                    <i class="fa fa-thumb-tack" aria-hidden="true"></i>
-                    <span class="text-muted">{{ house.creationDate | date: 'MMM d' }}</span>
+<div class="container">
+  <div class="row">
+<div class="col-md-3">
+  <div class="sidebar d-flex flex-column justify-content-center">
+        <form (ngSubmit)="loadHouses()">
+          <!-- Sidebar content -->
+          <!-- Category select -->
+          <div class="mb-2">
+            <select class="form-control" [(ngModel)]="houseParams.category" name="category">
+              <option value="">All Categories</option>
+              <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <select class="form-control" [(ngModel)]="houseParams.town" name="town">
+              <option value="">Town</option>
+              <option *ngFor="let town of towns" [value]="town.name">{{ town.name }}</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <select class="form-control" [(ngModel)]="houseParams.district" name="district">
+              <option value="">District</option>
+              <option *ngFor="let district of districts" [value]="district.name">{{ district.name }}</option>
+            </select>
+          </div>
+          <!-- Price range inputs -->
+          <div class="mb-2">
+            <input type="number" class="form-control" placeholder="Min Price" [(ngModel)]="priceFromInput" name="priceFrom">
+          </div>
+          <div class="mb-2">
+            <input type="number" class="form-control" placeholder="Max Price" [(ngModel)]="priceToInput" name="priceTo">
+          </div>
+    
+          <!-- Filter button -->
+          <div class="mb-2">
+            <button type="submit" class="btn btn-success mt-1 mb-1 w-100">Filter</button>
+            <div>
+              <button type="button" class="btn btn-warning mt-1 mb-1 w-100"  (click)="resetFilters()">Reset Filters</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    
+    
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-4" *ngFor="let house of houses">
+          <div class="card mb-4 box-shadow">
+            <!-- Card content -->
+            <a [routerLink]="['/ads', house.id]">
+              <img class="card-img-top" [src]="house.photoUrl" alt="">
+            </a>
+            <div class="card-body">
+              <div class="flex-item">
+                <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+                <span class="text-muted">{{ house.creationDate | date: 'MMM d' }}</span>
+              </div>
+              <a [routerLink]="['/ads', house.id]" class="card-link">
+                <h5 class="card-title">{{ house.title | slice:0:25 }}{{ house.title.length > 30 ? '...' : '' }}</h5>
+              </a>
+              <p class="card-text">{{ house.description | slice:0:25 }}{{ house.description.length > 30 ? '...' : ''
+                }}</p>
+             
+              <div class="location-row">
+                <div class="flex-item">
+                  <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
+                  <span class="username">{{ house.userName.charAt(0).toUpperCase() +
+                    house.userName.slice(1).toLowerCase() }}</span>
+                </div>
+                <div class="flex-item location">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;
+                  <div class="location-details">
+                    <span class="town">{{house.townName}}</span>
+                    <span>/</span>
+                    <span class="district">{{house.districtName}}</span>
                   </div>
                 </div>
-
-                <div class="property-row mt-2">
-                  <div class="flex-item">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>{{house.room}}</span>
-                  </div>
-                  <div class="flex-item">
-                    <i class="fa fa-th-large" aria-hidden="true"></i> &nbsp;
-                    <span>{{house.square}} m<sup>2</sup></span>
-                  </div>
-                  <div class="flex-item">
-                    <span>{{ house.price | number:'1.0-0' }} ₺</span>
-                  </div>
+             
+              </div>
+              <div class="property-row mt-2">
+                <div class="flex-item">
+                  <i class="fa fa-home" aria-hidden="true"></i>
+                  <span>{{house.room}}</span>
                 </div>
-
-
-                <div class="btn-group d-flex mt-2">
-                  <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" style="float:right;"
-                    (click)="likeAd(house.id)">
-                    <i class="fa fa-heart" aria-hidden="true" style="color: red"></i>&nbsp;Favourite
-                  </button>
-
-                  <button type="button" class="btn btn-sm btn-outline-secondary flex-fill"
-                    routerLink="/ads/{{house.id}}">View</button>
-
+                <div class="flex-item">
+                  <i class="fa fa-th-large" aria-hidden="true"></i> &nbsp;
+                  <span>{{house.square}} m<sup>2</sup></span>
                 </div>
+                <div class="flex-item">
+                  <span>{{ house.price | number:'1.0-0' }} ₺</span>
+                </div>
+              </div>
+              <div class="btn-group d-flex mt-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" style="float:right;"
+                  (click)="likeAd(house.id)">
+                  <i class="fa fa-heart" aria-hidden="true" style="color: red"></i>&nbsp;Favourite
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary flex-fill"
+                  routerLink="/ads/{{house.id}}">View</button>
               </div>
             </div>
           </div>
         </div>
+      <div class="row">
+        <!-- Loop through houses -->
+      </div>
+      <div class="d-flex justify-content-center" *ngIf="pagination">
+        <pagination
+         [boundaryLinks]="true"
+          [totalItems]="pagination.totalItems"
+          [itemsPerPage]="pagination.itemsPerPage"
+          [maxSize]="10"
+          [(ngModel)]="pagination.currentPage"
+          (pageChanged)="pageChanged($event)"
+           previousText="&lsaquo;"
+            nextText="&rsaquo;"
+          firstText="&laquo;"
+           lastText="&raquo;">
+        </pagination>
       </div>
     </div>
-  </main>
-</body>
+
+
+    
+
+
+      </div>
+    </div>
+
+
+
+<!--   <form class="d-flex flex-grow-1 mt-2" role="search">
+    <input class="form-control me-2" id="search" type="search" placeholder="**" aria-label="Search">
+    <button class="btn btn-outline-success mt-1" type="submit">Ara</button>
+  </form> -->

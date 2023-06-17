@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand mt-3" routerLink="/">Mersin</a>
+    <a class="navbar-brand mt-3"routerLink="/ads">Estateland</a>
     <button class="navbar-toggler" click="handleNavbarTogglerClick()" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon">
       </span>
@@ -8,31 +8,31 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mt-3">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/ads" routerLinkActive="active" aria-current="page" href="#">Anasayfa</a>
+          <a class="nav-link active" routerLink="/ads" routerLinkActive="active" aria-current="page" href="#"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/" aria-current="page" href="#">Yenişehir</a>
+          <a class="nav-link active" routerLink="/" aria-current="page" href="#"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Mezitli</a>
+          <a class="nav-link active" aria-current="page" href="#"></a>
         </li>
       </ul>
     </div>
 
     <form class="d-flex flex-grow-1 justify-content-center mt-2" role="register" *ngIf="!(accountService.currentUser$ | async)">
-      <button class="btn btn-outline-warning mt-2" routerLink="/register" routerLinkActive="active" type="register">Ücretsiz İlan Yayınla</button>
+      <button class="btn btn-outline-warning mt-2" routerLink="/register" routerLinkActive="active" type="register">Publish Free Ads</button>
     </form>
 
     <form class="d-flex flex-grow-1 justify-content-end mt-2" role="login" *ngIf="!(accountService.currentUser$ | async)">
-      <button class="btn btn-outline-warning mt-2" routerLink="/login" routerLinkActive="active" type="login">Giriş Yap</button>
+      <button class="btn btn-outline-warning mt-2" routerLink="/login" routerLinkActive="active" type="login">Login</button>
     </form>
 
     <div class="btn-group mb-1 margin-rgiht:2px;" dropdown *ngIf="(accountService.currentUser$ | async) as user" >
       <button id="button-basic" dropdownToggle type="button" class="btn btn-danger dropdown-toggle"aria-controls="dropdown-basic">
-        <i class="fa fa-user-circle" aria-hidden="true"></i> Hesabım {{user.username | titlecase}} <span class="caret"></span>
+        <i class="fa fa-user-circle" aria-hidden="true"></i> Account {{user.username | titlecase}} <span class="caret"></span>
       </button> 
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu mt-3"role="menu" aria-labelledby="button-basic">
-        <li role="menuitem" [routerLink]="['/members', user.username]"><a class="dropdown-item" ><i class="fa fa-pencil" aria-hidden="true"></i> Bilgilerim</a></li>
+        <li role="menuitem" [routerLink]="['/members', user.username]"><a class="dropdown-item" ><i class="fa fa-pencil" aria-hidden="true"></i> My Ads</a></li>
           <li role="menuitem" routerLink="/new"><a class="dropdown-item" ><i class="fa fa-pencil" aria-hidden="true"></i>
             Yeni İlan</a></li>
             <li role="menuitem" [routerLink]="['/liked', user.id]">
@@ -43,13 +43,13 @@
             
             
         <li role="menuitem" routerLink="/settings"><a class="dropdown-item"><i class="fa fa-key" aria-hidden="true"></i>
-            Güvenlik</a></li>
+            Security</a></li>
             <li role="menuitem" routerLink="/help"><a class="dropdown-item"><i class="fa fa-question-circle" aria-hidden="true"></i>
-              Yardım</a>
+              Help</a>
             </li>
         <li class="divider dropdown-divider"></li>
         <li role="menuitem"><a class="dropdown-item" (click)="logout()"><i class="fa fa-power-off" aria-hidden="true"></i>
-          Çıkış</a></li>
+          Logout</a></li>
       </ul>
     </div>
   </div>

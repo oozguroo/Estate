@@ -3,6 +3,7 @@ using System.Net;
 using API.Data;
 using API.DTOs;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -71,9 +72,11 @@ namespace API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HouseDto>>> GetHouses()
+        public async Task<ActionResult<PagedList<HouseDto>>> GetHouses([FromQuery]HouseParams houseParams)
         {
-            var houses = await _adRepository.GetHousesAsync();
+            var houses = await _adRepository.GetHousesAsync(houseParams);
+            Response.AddPaginationHeader(new PaginationHeader(houses.CurrentPage,houses.PageSize,
+            houses.TotalCount,houses.TotalPages));
             return Ok(houses);
         }
 

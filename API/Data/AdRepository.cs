@@ -6,10 +6,12 @@ using API.DTOs;
 using API.Entities;
 using API.Entities.Homes;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using API.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using CloudinaryDotNet.Actions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -74,7 +76,7 @@ namespace API.Data
             .Where(x => x.Id == id)
      .ProjectTo<HouseDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
- 
+
         }
 
         public async Task<HttpStatusCode> DeleteHouseAdAsync(int id, string username)
@@ -111,22 +113,52 @@ namespace API.Data
 
             return HttpStatusCode.OK;
         }
-
-        public async Task<IEnumerable<HouseDto>> GetHousesAsync()
+        public async Task<PagedList<HouseDto>> GetHousesAsync(HouseParams houseParams)
         {
-            var houses = await _context.Houses
-                .ProjectTo<HouseDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            var query = _context.Houses.AsQueryable();
 
+            if (!string.IsNullOrEmpty(houseParams.Category))
+            {
+                var categories = houseParams.Category.Split(',').ToList(); // Split the category string into a list of categories
+
+                query = query.Where(h => categories.Contains(h.Category.Name));
+            }
+               if (!string.IsNullOrEmpty(houseParams.Town))
+            {
+                var towns = houseParams.Town.Split(',').ToList(); // Split the category string into a list of categories
+
+                query = query.Where(h => towns.Contains(h.Town.Name));
+            }
+                   if (!string.IsNullOrEmpty(houseParams.District))
+            {
+                var districts = houseParams.District.Split(',').ToList(); // Split the category string into a list of categories
+
+                query = query.Where(h => districts.Contains(h.District.Name));
+            }
+
+            if (houseParams.PriceFrom.HasValue)
+            {
+                query = query.Where(h => h.Price >= houseParams.PriceFrom.Value);
+            }
+
+            if (houseParams.PriceTo.HasValue)
+            {
+                query = query.Where(h => h.Price <= houseParams.PriceTo.Value);
+            }
             var currentDate = DateTime.UtcNow;
+
+            var houses = await query.ToListAsync();
 
             foreach (var house in houses)
             {
                 house.IsActive = house.ExpirationDate > currentDate;
             }
 
-            return houses;
+            return await PagedList<HouseDto>.CreateAsync(query.AsNoTracking().ProjectTo<HouseDto>(_mapper.ConfigurationProvider), houseParams.PageNumber, houseParams.PageSize);
         }
+
+
+
 
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {

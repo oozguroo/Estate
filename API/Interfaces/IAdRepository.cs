@@ -2,12 +2,13 @@ using System.Net;
 using API.DTOs;
 using API.Entities;
 using API.Entities.Homes;
+using API.Helpers;
 
 namespace API.Interfaces
 {
     public interface IAdRepository
     {
-        Task<IEnumerable<HouseDto>> GetHousesAsync();
+        Task<PagedList<HouseDto>> GetHousesAsync(HouseParams houseParams);
         Task<HouseDto> GetHouseByIdAsync(int id);
         Task<bool> SaveAllAsync();
 

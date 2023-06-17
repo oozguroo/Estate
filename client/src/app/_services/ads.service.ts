@@ -2,34 +2,95 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { House } from '../_models/house';
-import { Observable } from 'rxjs';
+import { Observable, find, map, of, reduce } from 'rxjs';
 import { Category } from '../_models/category';
 import { Town } from '../_models/town';
 import { District } from '../_models/district';
 import { AccountService } from './account.service';
 import { HouseLike } from '../_models/houselike';
+import { PaginatedResult } from '../_models/pagination';
+import { HouseParams } from '../_models/houseParams';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdsService {
   baseUrl = environment.apiUrl;
-
+  houseCache =new Map();
   constructor(
     private http: HttpClient,
     private accountService: AccountService
   ) {}
 
+  getHouses(houseParams:HouseParams){
+    const response = this.houseCache.get(Object.values(houseParams).join('-'));
+    if(response) return of(response);
+    let params = this.getPaginationHeaders(houseParams.pageNumber,houseParams.pageSize);
 
-  getHouses(): Observable<House[]> {
-    return this.http.get<House[]>(
-      `${this.baseUrl}ads?includeTowns=true&includeHouseCategories=true&includeHouseDistricts=true`
+    if (houseParams.category) {
+      params = params.append('category', houseParams.category);
+    }
+    if (houseParams.town) {
+      params = params.append('town', houseParams.town);
+    }
+    if (houseParams.district) {
+      params = params.append('district', houseParams.district);
+    }
+    if (houseParams.priceFrom) {
+      params = params.append('priceFrom', houseParams.priceFrom.toString());
+    }
+  
+    if (houseParams.priceTo) {
+      params = params.append('priceTo', houseParams.priceTo.toString());
+    }
+
+    return this.getPaginatedResult<House[]>(this.baseUrl +'ads',params).pipe(
+      map(response =>{
+        this.houseCache.set(Object.values(houseParams).join('-'),response);
+        return response;
+      })
+    )
+  }
+
+
+
+
+  private getPaginatedResult<T>(url:string,params: HttpParams) {
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>;
+    return this.http.get<T>(url, { observe: 'response', params }).pipe(
+      map(response => {
+        if (response.body) {
+          paginatedResult.result = response.body;
+        }
+        const pagination = response.headers.get('Pagination');
+        if (pagination) {
+          paginatedResult.pagination = JSON.parse(pagination);
+        }
+        return paginatedResult;
+      })
     );
   }
 
+  private getPaginationHeaders(pageNumber:number,pageSize:number) {
+    let params = new HttpParams();
+
+      params = params.append('pageNumber', pageNumber);
+      params = params.append('pageSize', pageSize);
+
+    return params;
+  }
+  getHouseCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.baseUrl}ads/categories`);
+  }
+  
+
   getHouse(id: number) {
-    return this.http.get<House>(
-      `${this.baseUrl}ads/${id}?includeHouseCategories=true&includeTowns=true`
+    const house = [...this.houseCache.values()]
+   .reduce((arr, elem) => arr.concat(elem.result),[])
+   .find((house:House) => house.id === id);
+   if(house) return of(house);
+
+    return this.http.get<House>(`${this.baseUrl}ads/${id}?includeHouseCategories=true&includeTowns=true`
     );
   }
 
@@ -75,6 +136,7 @@ export class AdsService {
     );
   }
 
+
   createHouseAd(
     formData: FormData,
     appUserId: number,
@@ -113,9 +175,6 @@ export class AdsService {
     return this.http.delete(url, options);
   }
 
-  getHouseCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.baseUrl}ads/categories`);
-  }
 
   getHouseTowns(): Observable<Town[]> {
     return this.http.get<Town[]>(`${this.baseUrl}ads/towns`);
