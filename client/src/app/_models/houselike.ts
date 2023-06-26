@@ -3,5 +3,5 @@ export interface HouseLike{
     houseId: number
     houseTitle: string
     housePrice: number
-    housePhotoUrl: any
+    housePhotoUrl: string
 }

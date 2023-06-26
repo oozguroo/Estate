@@ -28,6 +28,8 @@ import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { AdsNewComponent } from './ads/ads-new/ads-new.component';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { MemberLikesComponent } from './members/member-likes/member-likes.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 
 
@@ -54,7 +56,8 @@ import { MemberLikesComponent } from './members/member-likes/member-likes.compon
     TestErrorComponent,
     AdsNewComponent,
     TextInputComponent,
-    MemberLikesComponent
+    MemberLikesComponent,
+    MemberMessagesComponent
    
 
   ],
@@ -70,7 +73,8 @@ import { MemberLikesComponent } from './members/member-likes/member-likes.compon
     
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi:true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi:true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]
 })

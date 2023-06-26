@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { House } from '../_models/house';
-import { Observable, find, map, of, reduce } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { Category } from '../_models/category';
 import { Town } from '../_models/town';
 import { District } from '../_models/district';
@@ -10,6 +10,7 @@ import { AccountService } from './account.service';
 import { HouseLike } from '../_models/houselike';
 import { PaginatedResult } from '../_models/pagination';
 import { HouseParams } from '../_models/houseParams';
+import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class AdsService {
   getHouses(houseParams:HouseParams){
     const response = this.houseCache.get(Object.values(houseParams).join('-'));
     if(response) return of(response);
-    let params = this.getPaginationHeaders(houseParams.pageNumber,houseParams.pageSize);
+    let params = getPaginationHeaders(houseParams.pageNumber,houseParams.pageSize);
 
     if (houseParams.category) {
       params = params.append('category', houseParams.category);
@@ -44,7 +45,7 @@ export class AdsService {
       params = params.append('priceTo', houseParams.priceTo.toString());
     }
 
-    return this.getPaginatedResult<House[]>(this.baseUrl +'ads',params).pipe(
+    return getPaginatedResult<House[]>(this.baseUrl +'ads',params,this.http).pipe(
       map(response =>{
         this.houseCache.set(Object.values(houseParams).join('-'),response);
         return response;
@@ -52,33 +53,6 @@ export class AdsService {
     )
   }
 
-
-
-
-  private getPaginatedResult<T>(url:string,params: HttpParams) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>;
-    return this.http.get<T>(url, { observe: 'response', params }).pipe(
-      map(response => {
-        if (response.body) {
-          paginatedResult.result = response.body;
-        }
-        const pagination = response.headers.get('Pagination');
-        if (pagination) {
-          paginatedResult.pagination = JSON.parse(pagination);
-        }
-        return paginatedResult;
-      })
-    );
-  }
-
-  private getPaginationHeaders(pageNumber:number,pageSize:number) {
-    let params = new HttpParams();
-
-      params = params.append('pageNumber', pageNumber);
-      params = params.append('pageSize', pageSize);
-
-    return params;
-  }
   getHouseCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.baseUrl}ads/categories`);
   }
@@ -106,9 +80,33 @@ export class AdsService {
     formData.append('houseId', houseId.toString());
     return this.http.post(this.baseUrl + 'likes/adlike', formData);
   }
-  getLikedAds(userId: number): Observable<HouseLike[]> {
-    return this.http.get<HouseLike[]>(`${this.baseUrl}likes/liked/${userId}`);
-  }
+
+
+
+getLikedAds(appUserId: number, pageNumber: number, pageSize: number): Observable<PaginatedResult<HouseLike[]>> {
+  const params = {
+    appUserId: appUserId.toString(),
+    pageNumber: pageNumber.toString(),
+    pageSize: pageSize.toString()
+  };
+
+  let paginatedResult: PaginatedResult<HouseLike[]> = new PaginatedResult<HouseLike[]>();
+
+  return this.http.get<HouseLike[]>(`${this.baseUrl}likes`, { observe: 'response', params }).pipe(
+    map(response => {
+      if (response.body !== null) {
+        paginatedResult.result = response.body;
+      }
+      if (response.headers.get('Pagination') !== null) {
+        paginatedResult.pagination = JSON.parse(response.headers.get('Pagination') as string);
+      }
+      return paginatedResult;
+    })
+  );
+}
+
+
+  
 
   updateHouse(
     formData: FormData,

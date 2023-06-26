@@ -12,6 +12,5 @@ namespace API.DTOs
         public string HouseTitle { get; set; }
         public decimal HousePrice { get; set; }
         public string HousePhotoUrl { get; set; }
-        public List<PhotoDto> Photos { get; set; }
     }
 }

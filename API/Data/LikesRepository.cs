@@ -1,6 +1,7 @@
 using System.Net;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -49,23 +50,31 @@ namespace API.Data
                 return null;
             }
         }
-        public HouseLike GetHouseLikeByUserIdAndHouseId(int userId, int houseId)
-        {
-            return _context.HouseLikes
-                .Where(hl => hl.AppUserId == userId && hl.HouseId == houseId)
-                .SingleOrDefault();
-        }
 
-        public async Task<IEnumerable<HouseLikeDto>> GetLikedAdsAsync(int userId)
+        public async Task<PagedList<HouseLikeDto>> GetLikedAdsAsync(LikesParams likesParams)
         {
-            var likes = await _context.HouseLikes
+            var likedHouses = _context.HouseLikes
                 .Include(x => x.House)
                 .ThenInclude(x => x.Photos)
-                .Where(x => x.AppUserId == userId)
-                .ToListAsync();
+                .Where(like => like.AppUserId == likesParams.AppUserId)
+                .Select(like => new HouseLikeDto
+                {
+                    AppUserId = like.AppUserId,
+                    HouseId = like.HouseId,
+                    HouseTitle = like.House.Title,
+                    HousePrice = like.House.Price,
+                    HousePhotoUrl = like.House.Photos.FirstOrDefault(x => x.IsMain).Url,
+                   
+                });
 
-            return _mapper.Map<IEnumerable<HouseLikeDto>>(likes);
+            return await PagedList<HouseLikeDto>.CreateAsync(likedHouses, likesParams.PageNumber, likesParams.PageSize);
         }
+
+
+
+
+
+
 
 
         public async Task<bool> IsLikedAsync(int userId, int houseId)

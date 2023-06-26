@@ -1,27 +1,37 @@
-  <div class="row">
-    <div class="col-12 col-md-8 order-md-1 order-2">
-          <div *ngIf="likedAds">
-            <div class="card house-card"*ngFor="let ad of likedAds" (click)="redirectToAdDetail(ad.houseId)">
-              <div class="row no-gutters">
-                <div class="col-md-4">
-                  <img class="card-img-top" [src]="ad.housePhotoUrl" alt="{{ ad.houseTitle }}" />
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ ad.houseTitle }}</h5>
-                    <div class="card-buttons">
-                      <button type="button" (click)="onUnlike(ad.houseId)" class="btn btn-danger">Delete</button>
-                    </div>
-                  </div>
-                </div>
+<div class="row">
+  <div class="col-12 col-md-8 order-md-1 order-2">
+    <div *ngIf="houseLike">
+      <div class="card house-card" *ngFor="let ad of houseLike" (click)="redirectToAdDetail(ad.houseId)">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img class="card-img-top" [src]="ad.housePhotoUrl" alt="{{ ad.houseTitle }}" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ ad.houseTitle }}</h5>
+              <div class="card-buttons">
+                <button type="button" (click)="onUnlike(ad.houseId)" class="btn btn-danger">Unlike</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-xs-6 col-md-4 order-md-2 order-1">
-          <!-- User -->
-          <div class="card user-card mt-4"> 
-           
-        </div>
+      </div>
+    </div>
   </div>
-  
+</div>
+<div class="row">
+  <div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination 
+        [boundaryLinks]="true" 
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [maxSize]="10"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        previousText="&lsaquo;" 
+        nextText="&rsaquo;" 
+        firstText="&laquo;" 
+        lastText="&raquo;">
+    </pagination>
+</div>
+</div>

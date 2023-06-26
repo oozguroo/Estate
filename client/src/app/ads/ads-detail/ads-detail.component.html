@@ -125,10 +125,19 @@
         <strong><i class="fa fa-user-circle-o" aria-hidden="true"></i>
           Ad Owner : </strong>
           <td>{{ house.userName | uppercase }}</td>
+          
       </tr>
     </div>
   </div>
+  <div class="card mt-3" *ngIf="member">
+    <tabset class="member-tabset" #memberTabs>
+      <tab heading="Messages" (selectTab)="onTabActivated($event)">
+        <app-member-messages [messages]="messages" [userName]="house.userName"></app-member-messages>
+
+      </tab>
+    </tabset>
   </div>
+  
 </div>
 
 <!-- Columns are always 50% wide, on mobile and desktop -->
@@ -140,7 +149,7 @@
         {{house.description}}
       </div>
     </div>
-  <!-- Ev Özellikleri -->
+  <!-- House Properties -->
   <h6>Frontage</h6>
         <div class="card">
           <div class="card-body">

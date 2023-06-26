@@ -18,6 +18,7 @@ namespace API.Data
         public DbSet<Town> Towns { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<HouseLike> HouseLikes { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
 
 
@@ -72,6 +73,17 @@ namespace API.Data
                 .WithMany(h => h.LikedByUsers)
                 .HasForeignKey(hl => hl.HouseId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+                modelBuilder.Entity<Message>()
+                .HasOne(u=>u.Recipient)
+                .WithMany(m=>m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+                       modelBuilder.Entity<Message>()
+                .HasOne(u=>u.Sender)
+                .WithMany(m=>m.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
 
             modelBuilder.Entity<House>()

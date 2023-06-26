@@ -30,6 +30,7 @@ export class AccountService {
     return user ? JSON.parse(user).id : null;
   }
   
+  
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
@@ -49,18 +50,26 @@ export class AccountService {
     );
   }
   
-  
   register(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       map((user) => {
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          const { id, username, token } = user;
+          const currentUser: User = {
+            id,
+            username,
+            token,
+          };
+          localStorage.setItem('user', JSON.stringify(currentUser));
+          localStorage.setItem('token', token);
+          this.setCurrentUser(currentUser);
+          return currentUser;
         }
         return user;
       })
     );
   }
+  
 
  
 

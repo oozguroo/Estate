@@ -11,7 +11,8 @@ namespace API.Entities
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public ICollection<House> Houses { get; set; }
-       public ICollection<HouseLike> LikedHouses { get; set; }
-
+        public ICollection<HouseLike> LikedHouses { get; set; }
+        public List<Message> MessagesSent { get; set; }
+        public List<Message> MessagesReceived { get; set; }
     }
 }

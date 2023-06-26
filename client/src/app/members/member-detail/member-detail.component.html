@@ -44,6 +44,14 @@
         </table>
       </div>
     </div>
-    <button type="button" class="btn btn-info mt-2 mb-3 w-100">Message</button>
+    <div class="card mt-3" *ngIf="member">
+      <tabset class="member-tabset" #memberTabs>
+        <tab heading="Messages">
+          <!-- Pass the messages and house userName to the MemberMessagesComponent -->
+          <app-member-messages [messages]="messages" [userName]="member.userName"></app-member-messages>
+        </tab>
+      </tabset>
+    </div>
+    
   </div>
 </div>

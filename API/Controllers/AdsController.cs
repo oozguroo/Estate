@@ -1,12 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
-using API.Data;
 using API.DTOs;
 using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

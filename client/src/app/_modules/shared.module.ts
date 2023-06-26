@@ -5,6 +5,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TimeagoModule } from 'ngx-timeago';
 
 
 @NgModule({
@@ -14,7 +16,10 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     FileUploadModule,
    TabsModule.forRoot(),
    PaginationModule.forRoot(),
+   TimeagoModule.forRoot(),
+   TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
+    ButtonsModule.forRoot(),
     ToastrModule.forRoot({
       positionClass:'toast-bottom-right'
     })
@@ -24,7 +29,10 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     ToastrModule,
     PaginationModule,
     FileUploadModule,
-    TabsModule
+    TimeagoModule,
+    TabsModule,
+    ButtonsModule
+    
   ]
 })
 export class SharedModule {}

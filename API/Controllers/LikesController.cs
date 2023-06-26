@@ -1,4 +1,6 @@
 using API.DTOs;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -49,14 +51,28 @@ namespace API.Controllers
 
 
 
-        [HttpGet("liked/{userId}")]
-        public async Task<ActionResult<IEnumerable<HouseLikeDto>>> GetUserLikes(int userId)
+        /* [HttpGet("liked/{userId}")] */
+        /*      [HttpGet]
+             public async Task<ActionResult<IEnumerable<HouseLikeDto>>> GetUserLikedAds([FromQuery] int userId, [FromQuery] PaginationParams paginationParams)
+             {
+                 var likesParams = new LikesParams { UserId = userId, PageNumber = paginationParams.PageNumber, PageSize = paginationParams.PageSize };
+                 var likedAds = await _likesRepository.GetLikedAdsAsync(likesParams);
+
+                 return Ok(likedAds);
+             } */
+
+        [HttpGet]
+        public async Task<ActionResult<PagedList<HouseLikeDto>>> GetUserLikedAds([FromQuery] LikesParams likesParams)
         {
+                  var likes = await _likesRepository.GetLikedAdsAsync(likesParams);
 
-            var likes = await _likesRepository.GetLikedAdsAsync(userId);
+            Response.AddPaginationHeader(new PaginationHeader(likes.CurrentPage, 
+                likes.PageSize, likes.TotalCount, likes.TotalPages));
 
-            return Ok(_mapper.Map<IEnumerable<HouseLikeDto>>(likes));
+                 return Ok(likes);
         }
+
+
 
 
 
