@@ -4,8 +4,6 @@ import { HomeComponent } from './home/home.component';
 import { AdsListComponent } from './ads/ads-list/ads-list.component';
 import { AdsDetailComponent } from './ads/ads-detail/ads-detail.component';
 import { MessagesComponent } from './messages/messages.component';
-import { MemberHelpComponent } from './members/member-help/member-help.component';
-import { MemberSettingsComponent } from './members/member-settings/member-settings.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { RegisterComponent } from './register/register.component';
@@ -26,7 +24,6 @@ const routes: Routes = [
   { path: 'list', component: AdsListComponent },
   { path: 'login', component: MemberLoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'help', component: MemberHelpComponent },
   {path: 'members/:username', component: MemberDetailComponent},
   
   { path: 'new', component: AdsNewComponent },
@@ -36,7 +33,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'messages', component: MessagesComponent },
-      { path: 'settings', component: MemberSettingsComponent },
       { path: 'edit', component: MemberEditComponent },
       { path: 'edit/:id', component: AdsEditComponent },
       { path: 'liked/:id', component: MemberLikesComponent },

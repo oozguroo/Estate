@@ -1,3 +1,4 @@
+using API.DTOs;
 using API.Entities;
 using API.Entities.Homes;
 
@@ -56,8 +57,24 @@ namespace API.Data
         .HasForeignKey(h => h.DistrictId)
         .OnDelete(DeleteBehavior.Cascade);
 
-
 });
+
+       modelBuilder.Entity<Category>()
+        .HasData(
+            new Category { Id = 1, Name = "Sell" },
+            new Category { Id = 2, Name = "Rent" }
+        );
+
+           modelBuilder.Entity<Town>()
+        .HasData(
+            new Town { Id = 1, Name = "New Mexico" },
+            new Town { Id = 2, Name = "Paris" }
+        );
+            modelBuilder.Entity<District>()
+        .HasData(
+            new District { Id = 1, Name = "Green Street" },
+            new District { Id = 2, Name = "St George" }
+        );
 
             modelBuilder.Entity<HouseLike>()
                 .HasKey(hl => new { hl.AppUserId, hl.HouseId });

@@ -1,25 +1,25 @@
 
 <body class="text-center">
   <form #registerForm="ngForm" class="form-register" (ngSubmit)="register()" autocomplete="off">
-    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">İlan yüklemek için kayıt olmalısınız! </h1>
+    
+    <h1 class="h3 mb-3 font-weight-normal">You have to register to publish ads! </h1>
 
-    <label for="inputEmail" class="sr-only mb-1">Kullanıcı Adı</label>
+    <label for="inputEmail" class="sr-only mb-1">Username</label>
     <input type="text" class="form-control mb-2" name="username" id="username" [(ngModel)]="model.username"
-    aria-describedby="inputGroup-sizing-lg" placeholder="Kullanıcı adınızı girin" required autofocus>
+    aria-describedby="inputGroup-sizing-lg" placeholder="Username" required autofocus>
 
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" class="form-control mb-2" name="password" id="password" aria-describedby="passwordHelpBlock"
-    aria-describedby="inputGroup-sizing-lg"[(ngModel)]="model.password" placeholder="Şifrenizi girin" required>
+    aria-describedby="inputGroup-sizing-lg"[(ngModel)]="model.password" placeholder="Password" required>
   
     <div class="text-center">
-      <button class="btn btn-lg btn-warning" type="submit">Kaydol</button>
+      <button class="btn btn-lg btn-warning" type="submit">Sign Up</button>
     </div>
     <div class="text-center">
-      <button class="btn btn-lg btn-info" routerLink="/login" type="submit">Hesabınız var mı giriş yapın</button>
+      <button class="btn btn-lg btn-info" routerLink="/login" type="submit">Already have a account login</button>
     </div>
     <div class="text-center">
-      <button type="button" class="btn btn-danger btn-lg" routerLink="/ads" (click)="cancel()">Vazgeç</button>
+      <button type="button" class="btn btn-danger btn-lg" routerLink="/ads" (click)="cancel()">Back</button>
     </div>
   </form>
 </body>

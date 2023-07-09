@@ -14,10 +14,8 @@ import { AdsDetailComponent } from './ads/ads-detail/ads-detail.component';
 import { AdsEditComponent } from './ads/ads-edit/ads-edit.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
-import { MemberSettingsComponent } from './members/member-settings/member-settings.component';
 import { AdsCardComponent } from './ads/ads-card/ads-card.component';
 import { AdsPhotoComponent } from './ads/ads-photo/ads-photo.component';
-import { MemberHelpComponent } from './members/member-help/member-help.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MemberLoginComponent } from './members/member-login/member-login.component';
 import { SharedModule } from './_modules/shared.module';
@@ -45,10 +43,8 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     AdsEditComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    MemberSettingsComponent,
     AdsCardComponent,
     AdsPhotoComponent,
-    MemberHelpComponent,
     MessagesComponent,
     MemberLoginComponent,
     NotFoundComponent,

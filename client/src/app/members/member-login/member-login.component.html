@@ -1,20 +1,20 @@
   
 <body class="text-center">
     <form #loginForm="ngForm" class="form-signin" *ngIf="!(accountService.currentUser$ | async)"role="login" (ngSubmit)="login()">
-      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Giriş Yap </h1>
+
+      <h1 class="h3 mb-3 font-weight-normal">Login </h1>
   
-      <label for="inputEmail" class="sr-only mb-1">Kullanıcı Adı</label>
+      <label for="inputEmail" class="sr-only mb-1">Username</label>
       <input type="text" class="form-control mb-2" name="username" id="username" [(ngModel)]="model.username"
-      aria-describedby="inputGroup-sizing-lg" placeholder="Kullanıcı adınızı girin" required autofocus>
+      aria-describedby="inputGroup-sizing-lg" placeholder="Username" required autofocus>
 
   
       <label for="inputPassword" class="sr-only">Password</label>
       <input type="password" class="form-control mb-2" name="password" id="password" aria-describedby="passwordHelpBlock"
-      aria-describedby="inputGroup-sizing-lg"[(ngModel)]="model.password" placeholder="Şifrenizi girin" required>
+      aria-describedby="inputGroup-sizing-lg"[(ngModel)]="model.password" placeholder="Password" required>
         
       <div class="flex-shrink-0">
-        <button class="btn btn-outline-success form-control" type="submit">Giriş</button> 
+        <button class="btn btn-outline-success form-control" type="submit">Login</button> 
       </div>
     </form>
   </body>
